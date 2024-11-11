@@ -1,154 +1,96 @@
 import { defineConfig } from "tinacms";
+import Clerk from "@clerk/clerk-js";
 
-// Your hosting provider likely exposes this as an environment variable
-const branch = process.env.GITHUB_BRANCH || process.env.HEAD || "main";
+const clerkPubKey = process.env.TINA_PUBLIC_CLERK_PUBLIC_KEY!;
+const clerk = new Clerk(clerkPubKey);
 
-const collectionsBasePath = "content";
+/**
+ * For premium Clerk users, you can use restrictions
+ * https://clerk.com/docs/authentication/allowlist
+ */
+export const isUserAllowed = (emailAddress: string) => {
+  const allowList = [process.env.TINA_PUBLIC_PERMITTED_EMAIL];
+  if (allowList.includes(emailAddress)) {
+    return true;
+  }
+  return false;
+};
+
+const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 
 export default defineConfig({
-  branch,
-
-  clientId: null,
-  token: null,
-
+  contentApiUrlOverride: "/.netlify/functions/graphql",
+  admin: {
+    auth: {
+      useLocalAuth: isLocal,
+      customAuth: !isLocal,
+      getToken: async () => {
+        await clerk.load();
+        if (clerk.session) {
+          return { id_token: (await clerk.session.getToken()) || "" };
+        }
+        // This will fail
+        return { id_token: "noop" };
+      },
+      logout: async () => {
+        await clerk.load();
+        await clerk.session?.remove();
+      },
+      authenticate: async () => {
+        clerk.openSignIn({
+          redirectUrl: "/admin/index.html", // This should be the Tina admin path
+          appearance: {
+            elements: {
+              // Tina's sign in modal is in the way without this
+              modalBackdrop: { zIndex: 20000 },
+            },
+          },
+        });
+      },
+      getUser: async () => {
+        await clerk.load();
+        if (clerk.user) {
+          if (
+            isUserAllowed(clerk.user.primaryEmailAddress?.emailAddress || "")
+          ) {
+            return true;
+          }
+          // Handle when a user is logged in outside of the org
+          clerk.session?.end();
+        }
+        return false;
+      },
+    },
+  },
   build: {
-    outputFolder: ".",
+    outputFolder: "admin",
     publicFolder: "public",
   },
   media: {
     tina: {
-      mediaRoot: "assets",
+      mediaRoot: "",
       publicFolder: "public",
     },
   },
-  // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
       {
-        name: "certificate",
-        label: "Certificates",
-        path: `${collectionsBasePath}/certificates`,
+        name: "post",
+        label: "Posts",
+        path: "content/posts",
         fields: [
           {
             type: "string",
             name: "title",
             label: "Title",
+            isTitle: true,
             required: true,
           },
           {
             type: "rich-text",
-            name: "info",
-            label: "Info",
-          },
-          {
-            type: "string",
-            name: "issuer",
-            label: "Issuer",
-            required: true,
-          },
-          {
-            type: "datetime",
-            name: "receivedOn",
-            label: "Received on",
-            required: true,
-          },
-          {
-            type: "datetime",
-            name: "validUntil",
-            label: "Valid until",
-          },
-          {
-            type: "image",
-            name: "certificate",
-            label: "Certificate",
-          },
-          {
-            type: "string",
-            name: "url",
-            label: "Url",
-          },
-        ],
-      },
-      {
-        name: "education",
-        label: "Education",
-        path: `${collectionsBasePath}/educations`,
-        fields: [
-          {
-            name: "institute",
-            label: "Institute",
-            type: "string",
-            required: true,
-          },
-          {
-            name: "degree",
-            label: "Degree",
-            type: "string",
-            required: true,
-          },
-          {
-            name: "start",
-            label: "Start date",
-            type: "datetime",
-            required: true,
-          },
-          {
-            name: "end",
-            label: "End date",
-            type: "datetime",
-          },
-          {
-            name: "grade",
-            label: "Grade",
-            type: "string",
-            required: true,
-          },
-          {
-            name: "url",
-            label: "Url",
-            type: "string",
-          },
-          {
-            name: "record",
-            label: "Transcript of records",
-            type: "image",
-          },
-        ],
-      },
-      {
-        name: "interest",
-        label: "Interests",
-        path: `${collectionsBasePath}/interests`,
-        fields: [
-          {
-            name: "title",
-            label: "Title",
-            type: "string",
-            required: true,
-          },
-        ],
-      },
-      {
-        name: "language",
-        label: "Languages",
-        path: `${collectionsBasePath}/languages`,
-        fields: [
-          {
-            name: "name",
-            label: "Name",
-            type: "string",
-            required: true,
-          },
-          {
-            name: "flag",
-            label: "Flag",
-            type: "image",
-            required: true,
-          },
-          {
-            name: "certificate",
-            label: "Certificate",
-            type: "image",
+            name: "body",
+            label: "Body",
+            isBody: true,
           },
         ],
       },

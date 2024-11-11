@@ -1,39 +1,35 @@
 {
-  "name": "cv-cms",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "name": "tina-standalone",
+  "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "tinacms dev --noTelemetry -c \"nodemon\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tinacms dev -c \"netlify dev -c \"vite\" \"",
+    "build": "tinacms build && tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "tinacms": "^2.4.0",
-    "tsconfig-paths": "^4.2.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      ".git",
-      "node_modules"
-    ],
-    "watch": [
-      "src"
-    ],
-    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
-    "ext": "ts, js"
+    "@clerk/backend": "^0.27.0",
+    "@clerk/clerk-js": "^4.55.0",
+    "@tinacms/cli": "^0.0.0-20230725171356",
+    "mongodb-level": "^0.0.2",
+    "netlify-cli": "^15.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tinacms": "^0.0.0-20230725171356",
+    "tinacms-gitprovider-github": "^0.0.0-20230725171356",
+    "wrangler": "^3.4.0"
   },
   "devDependencies": {
-    "@tinacms/cli": "^1.6.11",
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.17.6",
-    "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   }
 }

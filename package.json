@@ -3,33 +3,36 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "tinacms dev -c \"netlify dev -c \"vite\" \"",
-    "build": "tinacms build && tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "tinacms dev -c \"netlify dev -c 'astro dev' \"",
+    "build": "tinacms build && astro check && astro build",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky && echo \"#!/bin/sh\nbunx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
   },
   "dependencies": {
-    "@clerk/backend": "^0.27.0",
-    "@clerk/clerk-js": "^4.55.0",
-    "@tinacms/cli": "^0.0.0-20230725171356",
-    "mongodb-level": "^0.0.2",
-    "netlify-cli": "^15.10.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tinacms": "^0.0.0-20230725171356",
-    "tinacms-gitprovider-github": "^0.0.0-20230725171356",
-    "wrangler": "^3.4.0"
+    "@astrojs/check": "^0.9.4",
+    "@clerk/backend": "0.27.0",
+    "@clerk/clerk-js": "4.55.0",
+    "@tinacms/cli": "0.0.0-20230725171356",
+    "astro": "^4.16.13",
+    "express": "^4.21.1",
+    "mongodb-level": "0.0.2",
+    "tinacms": "0.0.0-20230725171356",
+    "tinacms-gitprovider-github": "0.0.0-20230725171356",
+    "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@nico-i/eslint-config": "^2.7.0",
+    "@nico-i/prettier-config": "^1.0.0",
+    "@nico-i/tsconfig": "^1.0.0",
+    "commitlint-plugin-spend": "^1.0.1",
+    "eslint": "^9.15.0",
+    "husky": "^9.1.6",
+    "netlify-cli": "^17.37.2",
+    "prettier": "3.3.3"
   }
 }

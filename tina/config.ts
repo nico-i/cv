@@ -16,10 +16,10 @@ export const isUserAllowed = (emailAddress: string) => {
   return false;
 };
 
-const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
+const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === `true`;
 
 export default defineConfig({
-  contentApiUrlOverride: "/.netlify/functions/graphql",
+  contentApiUrlOverride: `/.netlify/functions/graphql`,
   admin: {
     auth: {
       useLocalAuth: isLocal,
@@ -27,10 +27,10 @@ export default defineConfig({
       getToken: async () => {
         await clerk.load();
         if (clerk.session) {
-          return { id_token: (await clerk.session.getToken()) || "" };
+          return { id_token: (await clerk.session.getToken()) || `` };
         }
         // This will fail
-        return { id_token: "noop" };
+        return { id_token: `noop` };
       },
       logout: async () => {
         await clerk.load();
@@ -38,7 +38,7 @@ export default defineConfig({
       },
       authenticate: async () => {
         clerk.openSignIn({
-          redirectUrl: "/admin/index.html", // This should be the Tina admin path
+          redirectUrl: `/admin/index.html`, // This should be the Tina admin path
           appearance: {
             elements: {
               // Tina's sign in modal is in the way without this
@@ -51,7 +51,7 @@ export default defineConfig({
         await clerk.load();
         if (clerk.user) {
           if (
-            isUserAllowed(clerk.user.primaryEmailAddress?.emailAddress || "")
+            isUserAllowed(clerk.user.primaryEmailAddress?.emailAddress || ``)
           ) {
             return true;
           }
@@ -63,33 +63,33 @@ export default defineConfig({
     },
   },
   build: {
-    outputFolder: "admin",
-    publicFolder: "public",
+    outputFolder: `admin`,
+    publicFolder: `public`,
   },
   media: {
     tina: {
-      mediaRoot: "",
-      publicFolder: "public",
+      mediaRoot: ``,
+      publicFolder: `public`,
     },
   },
   schema: {
     collections: [
       {
-        name: "post",
-        label: "Posts",
-        path: "content/posts",
+        name: `post`,
+        label: `Posts`,
+        path: `content/posts`,
         fields: [
           {
-            type: "string",
-            name: "title",
-            label: "Title",
+            type: `string`,
+            name: `title`,
+            label: `Title`,
             isTitle: true,
             required: true,
           },
           {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
+            type: `rich-text`,
+            name: `body`,
+            label: `Body`,
             isBody: true,
           },
         ],

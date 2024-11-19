@@ -8,14 +8,14 @@ const clerk = Clerk({
 });
 
 const isAuthorized = async (event) => {
-  if (process.env.TINA_PUBLIC_IS_LOCAL === "true") {
+  if (process.env.TINA_PUBLIC_IS_LOCAL === `true`) {
     return true;
   }
 
   const requestState = await clerk.authenticateRequest({
-    headerToken: event.headers["authorization"],
+    headerToken: event.headers[`authorization`],
   });
-  if (requestState.status === "signed-in") {
+  if (requestState.status === `signed-in`) {
     const user = await clerk.users.getUser(requestState.toAuth().userId);
     const primaryEmail = user.emailAddresses.find(
       ({ id }) => id === user.primaryEmailAddressId
@@ -28,13 +28,13 @@ const isAuthorized = async (event) => {
 };
 
 const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Authorization, Content-Type",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+  "Access-Control-Allow-Origin": `*`,
+  "Access-Control-Allow-Headers": `Authorization, Content-Type`,
+  "Access-Control-Allow-Methods": `GET, POST, PUT, DELETE`,
 };
 
 export const handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
+  if (event.httpMethod === `OPTIONS`) {
     return {
       statusCode: 200,
       headers,
@@ -44,7 +44,7 @@ export const handler = async (event) => {
     return {
       statusCode: 403,
       headers,
-      body: JSON.stringify({ message: "Not authorized" }),
+      body: JSON.stringify({ message: `Not authorized` }),
     };
   }
   const { query, variables } = JSON.parse(event.body);

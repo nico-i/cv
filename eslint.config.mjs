@@ -1,3 +1,3 @@
-import nicoConfig from '@nico-i/eslint-config';
+import configs from '@nico-i/eslint-config';
 
-export default nicoConfig;
+export default configs;

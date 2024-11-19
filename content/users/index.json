@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "name": "Change Me",
+      "email": "change@me.com",
+      "username": "user",
+      "password": {
+        "value": "12345",
+        "passwordChangeRequired": true
+      }
+    }
+  ]
+}

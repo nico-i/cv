@@ -18,7 +18,7 @@
     "@tinacms/cli": "0.0.0-20230725171356",
     "astro": "^4.16.13",
     "express": "^4.21.1",
-    "mongodb-level": "0.0.2",
+    "mongodb-level": "^0.0.4",
     "tinacms": "0.0.0-20230725171356",
     "tinacms-gitprovider-github": "0.0.0-20230725171356",
     "typescript": "^5.6.3"

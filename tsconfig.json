@@ -23,5 +23,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "include": ["src/**/*", "tina/**/*"],
+  "exclude": ["tina/__generated__/**/*"]
 }

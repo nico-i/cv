@@ -10,7 +10,7 @@ GitHub repo template for a fully self hosted static site with [Astro](https://as
 
 ## Use this template
 
-### Deploying to Netlify based on this template
+### Deploy directly
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/extension/start/deploy?repository=https://github.com/nico-i/astro-tinacms-authjs-netlify-starter)
 

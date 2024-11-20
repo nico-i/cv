@@ -24,6 +24,6 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*", "tina/**/*"],
+  "include": ["src/**/*", "tina/**/*", "netlify/**/*"],
   "exclude": ["tina/__generated__/**/*"]
 }

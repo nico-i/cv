@@ -1,0 +1,33 @@
+---
+import Svg from "@/components/ui/Svg.astro";
+import Typography from "@/components/ui/Typography.astro";
+import CalendarDays from "@/svg/calendar-days.svg?raw";
+import { Locale } from "@nico-i/cv-data";
+import i18next, { t } from "i18next";
+
+export interface Props {
+  start: Date;
+  end: Date | undefined;
+}
+const { start, end }: Props = Astro.props;
+const locale = new Locale(i18next.language);
+---
+
+<Typography variant="muted">
+  <Svg svgHtml={CalendarDays} />
+  {
+    start.toLocaleDateString(locale.value, {
+      year: "numeric",
+      month: "short",
+    })
+  }
+  &thinsp;&ndash;&thinsp;
+  {
+    end
+      ? end.toLocaleDateString(locale.value, {
+          year: "numeric",
+          month: "short",
+        })
+      : t("dato")
+  }
+</Typography>

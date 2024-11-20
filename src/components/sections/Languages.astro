@@ -1,0 +1,37 @@
+---
+import Card from "@/components/ui/Card.astro";
+import GradedListItem from "@/components/ui/GradedListItem.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import Svg from "@/components/ui/Svg.astro";
+import { strapiClient } from "@/helper/strapi-client";
+import LanguagesIcon from "@/svg/languages.svg?raw";
+import { Locale, StrapiLangRepo } from "@nico-i/cv-data";
+import i18next, { t } from "i18next";
+
+const locale = new Locale(i18next.language);
+const langRepo = new StrapiLangRepo(strapiClient);
+const langs = await langRepo.getAllLangs(locale);
+---
+
+<Card>
+  <Fragment slot="title">
+    <SectionTitle title={t("langs")} svgHtml={LanguagesIcon} />
+  </Fragment>
+  <Fragment slot="content">
+    <ul class="flex flex-col gap-1.5 hide-bullets">
+      {
+        langs?.map((lang) => {
+          return (
+            <GradedListItem grade={lang.level} docUrl={undefined}>
+              <span slot="title">
+                <Svg svgHtml={lang.icon.fetchHtml()} className="w-6" />
+                &hairsp;
+                {lang.name}
+              </span>
+            </GradedListItem>
+          );
+        })
+      }
+    </ul>
+  </Fragment>
+</Card>

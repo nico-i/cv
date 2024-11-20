@@ -1,0 +1,31 @@
+---
+import Typography from "@/components/ui/Typography.astro";
+
+interface Props {
+  headerClassName?: string;
+  contentClassName?: string;
+  id?: string;
+}
+
+const { headerClassName, contentClassName, id }: Props = Astro.props;
+---
+
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm" id={id}>
+  <div class:list={["flex flex-col space-y-1.5 p-6", headerClassName]}>
+    <slot name="title" />
+    {
+      Astro.slots.has("subtitle") && (
+        <Typography variant="muted">
+          <slot name="subtitle" />
+        </Typography>
+      )
+    }
+  </div>
+  {
+    Astro.slots.has("content") && (
+      <div class:list={["p-6 pt-0", contentClassName]}>
+        <slot name="content" />
+      </div>
+    )
+  }
+</div>

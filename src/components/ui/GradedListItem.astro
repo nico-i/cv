@@ -1,0 +1,37 @@
+---
+import Typography from "@/components/ui/Typography.astro";
+
+interface Props {
+  grade: string;
+  docUrl: string | undefined;
+}
+
+const { grade, docUrl }: Props = Astro.props;
+---
+
+<li class="flex flex-col gap-0.5 z-10 bg-background">
+  <div class="flex justify-between items-center">
+    <div>
+      <Typography variant="large">
+        <slot name="title" />
+      </Typography>
+      <slot name="subtitle" />
+    </div>
+    {
+      docUrl ? (
+        <a
+          href={docUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="whitespace-nowrap"
+        >
+          <Typography variant="code">{grade}</Typography>
+        </a>
+      ) : (
+        <Typography variant="code" className="whitespace-nowrap">
+          {grade}
+        </Typography>
+      )
+    }
+  </div>
+</li>

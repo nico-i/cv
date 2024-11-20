@@ -1,0 +1,22 @@
+---
+export type Props = {
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  svgHtml: Promise<string> | string;
+};
+
+const { className, svgHtml, size = "sm" }: Props = Astro.props;
+
+const html = await svgHtml;
+
+const classesBySize = {
+  sm: "w-4 h-4",
+  md: "w-5 h-5",
+  lg: "w-6 h-6",
+};
+---
+
+<span
+  class:list={["inline-block", classesBySize[size], className]}
+  set:html={html}
+/>

@@ -1,0 +1,21 @@
+---
+import Svg from "@/components/ui/Svg.astro";
+import CircleDot from "@/svg/circle-dot.svg?raw";
+import Circle from "@/svg/circle.svg?raw";
+
+export interface Props {
+  isCompleted: boolean;
+}
+
+const { isCompleted }: Props = Astro.props;
+---
+
+<div class="absolute h-full top-0 left-0 overflow-clip">
+  <div>
+    {isCompleted ? <Svg svgHtml={CircleDot} /> : <Svg svgHtml={Circle} />}
+  </div>
+  <div
+    class="w-[0.13rem] bg-current h-full mx-auto rounded-full -translate-y-0.5"
+  >
+  </div>
+</div>

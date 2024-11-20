@@ -1,0 +1,23 @@
+---
+import Card from "@/components/ui/Card.astro";
+import SectionTitle from "@/components/ui/SectionTitle.astro";
+import { strapiClient } from "@/helper/strapi-client";
+import Joystick from "@/svg/joystick.svg?raw";
+import { Locale, StrapiInterestRepo } from "@nico-i/cv-data";
+import i18next, { t } from "i18next";
+
+const locale = new Locale(i18next.language);
+const interestRepo = new StrapiInterestRepo(strapiClient);
+const interests = await interestRepo.getAllInterests(locale);
+---
+
+<Card>
+  <Fragment slot="title">
+    <SectionTitle title={t("interests")} svgHtml={Joystick} />
+  </Fragment>
+  <Fragment slot="content">
+    <ul>
+      {interests?.map((interest) => <li>{interest.name}</li>)}
+    </ul>
+  </Fragment>
+</Card>

@@ -1,0 +1,85 @@
+---
+import Card from "@/components/ui/Card.astro";
+import Link from "@/components/ui/Link.astro";
+import Svg from "@/components/ui/Svg.astro";
+import Typography from "@/components/ui/Typography.astro";
+import { strapiClient } from "@/helper/strapi-client";
+import Cake from "@/svg/cake.svg?raw";
+import MapPin from "@/svg/map-pin.svg?raw";
+import Phone from "@/svg/phone.svg?raw";
+import { Locale, StrapiInfoRepo } from "@nico-i/cv-data";
+import { Image } from "astro:assets";
+import i18next from "i18next";
+
+const locale = new Locale(i18next.language);
+const infoRepo = new StrapiInfoRepo(strapiClient);
+const info = await infoRepo.getInfo(locale);
+---
+
+<Card contentClassName="flex flex-col gap-6">
+  <Fragment slot="title">
+    {
+      info?.portrait && (
+        <Image
+          loading={"eager"}
+          src={info.portrait.url.href}
+          width={info.portrait.width}
+          height={info.portrait.height}
+          alt="Portrait Nico Ismaili"
+          class="rounded-full mb-3 aspect-square w-40 mx-auto"
+        />
+      )
+    }
+    <Typography variant="h2">{info?.name}</Typography>
+  </Fragment>
+  <Fragment slot="subtitle">
+    {info?.occupation}
+  </Fragment>
+  <Fragment slot="content">
+    <div id="info" class="flex flex-col gap-2">
+      <Typography variant="small">
+        <Svg svgHtml={Cake} />
+        &hairsp;
+        {
+          info?.dob.toLocaleDateString(locale.value, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </Typography>
+      <Typography variant="small">
+        <Svg svgHtml={Phone} />
+        &hairsp;
+        <a href={`phone:${info?.phone}`}>
+          {info?.phone}
+        </a>
+      </Typography>
+      <Typography variant="small">
+        <Svg svgHtml={MapPin} />
+        &hairsp;
+        {info?.address}
+      </Typography>
+    </div>
+    <ul class="hide-bullets">
+      {
+        info?.contacts?.map((contactLink) => {
+          if (!contactLink.icon) {
+            return null;
+          }
+
+          return (
+            <li>
+              <Svg
+                svgHtml={contactLink.icon.fetchHtml()}
+                className="translate-y-0.5"
+              />
+              &hairsp;
+              <Link href={contactLink.url.href}>{contactLink.text}</Link>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </Fragment>
+</Card>

@@ -10,6 +10,12 @@ GitHub repo template for a fully self hosted static site with [Astro](https://as
 
 ## Use this template
 
+### Deploying to Netlify based on this template
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/extension/start/deploy?repository=https://github.com/nico-i/astro-tinacms-authjs-netlify-starter)
+
+### Manual setup
+
 1. Click the **Use this template** button and create a new repository based on this template.
 2. Clone your new repository to your local machine and navigate to the project directory.
 
@@ -39,4 +45,4 @@ npm run dev
 7. Visit the `/admin/index.html` route to access the TinaCMS interface.
 8. You should automatically be prompted to login and afterwards update the seed user password.
 9. Update the seed user password and save the changes.
-10. You are now ready to deploy to Netlify.
+10. Deploy your site to Netlify manually.

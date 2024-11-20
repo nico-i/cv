@@ -6,3 +6,11 @@ from = "/api/tina/*"
 to = "/.netlify/functions/tina"
 status = 200
 force = true
+
+[template.environment]
+GITHUB_BRANCH = "Branch to push content updates changes to"
+GITHUB_OWNER = "Username of the owner of the repo"
+GITHUB_REPO = "This repo's name"
+GITHUB_PERSONAL_ACCESS_TOKEN = "GitHub access token with repo access to the specified repo"
+MONGODB_URI = "Your MongoDB connection string. See https://www.mongodb.com/docs/manual/reference/connection-string/#find-your-mongodb-atlas-connection-string"
+NEXTAUTH_SECRET = "Secret to encrypt passwords with. Use `npx auth` to generate. Read more: https://cli.authjs.dev"

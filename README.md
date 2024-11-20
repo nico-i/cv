@@ -14,6 +14,8 @@ GitHub repo template for a fully self hosted static site with [Astro](https://as
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/extension/start/deploy?repository=https://github.com/nico-i/astro-tinacms-authjs-netlify-starter#GITHUB_REPO=astro-tinacms-authjs-netlify-starter&GITHUB_BRANCH=main)
 
+*Note: The initial login data is in [`content/users/index.json`](./content/users/index.json).*
+
 ### Manual setup
 
 1. Click the **Use this template** button and create a new repository based on this template.
@@ -23,7 +25,7 @@ GitHub repo template for a fully self hosted static site with [Astro](https://as
 git clone <your-repo-url> && cd <your-repo-name>
 ```
 
-3. Add an `.env` file to the root of your project based on the provides [`.env.example`](./.env.example) file.
+1. Copy [`.env.example`](./.env.example), rename it to `.env` and fill in the required environment variables.
 
 ```bash
 cp .env.example .env

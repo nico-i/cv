@@ -20,4 +20,9 @@ export default [
   },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   ...configs,
+  {
+    rules: {
+      'no-console': `error`,
+    },
+  },
 ];

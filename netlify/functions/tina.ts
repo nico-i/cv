@@ -56,6 +56,7 @@ const mediaHandler = createMediaHandler({
 
       return user && user.isAuthorized;
     } catch (e) {
+      // eslint-disable-next-line no-console -- Ok since this will only be logged in the server
       console.error(e);
       return false;
     }
@@ -64,6 +65,7 @@ const mediaHandler = createMediaHandler({
   branch: githubBranch,
   owner: githubOwner,
   repo: githubRepo,
+  basePath: `public/uploads`,
 });
 
 app.use(express.urlencoded({ extended: true }));

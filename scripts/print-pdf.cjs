@@ -50,6 +50,7 @@ import fs from 'fs';
         height: `${boundingBox.height}px`,
       });
 
+      // eslint-disable-next-line no-console -- logging is ok for scripts
       console.log(`Generated ${language}-${theme}.pdf from ${targetUrl}`);
     }
   }

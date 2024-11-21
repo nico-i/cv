@@ -29,14 +29,40 @@ export class GitHubMediaStore implements MediaStore {
   }
 
   async list(options?: MediaListOptions): Promise<MediaList> {
-    const res = await fetch(this.baseUrl);
-    if (!res.ok) {
-      throw new Error(
-        `Failed to retrieve media list. Response: ${res.statusText}`,
-      );
-    }
-    throw new Error(`List Method not implemented.`);
+    const query = this.mapMediaListOptionsToQueryParams(options || {});
+
+    const allFiles: Media[] = await fetch(this.baseUrl + query).then((res) =>
+      res.json(),
+    );
+    return {
+      items: allFiles,
+    };
   }
 
-  isStatic?: boolean | undefined;
+  mapMediaListOptionsToQueryParams(options: MediaListOptions) {
+    const params: [string, string][] = [];
+
+    if (options.directory) {
+      params.push([`directory`, options.directory]);
+    }
+    if (options.limit) {
+      params.push([`limit`, options.limit.toString()]);
+    }
+    if (options.offset) {
+      params.push([`offset`, options.offset.toString()]);
+    }
+    if (options.thumbnailSizes) {
+      params.push([`thumbnailSizes`, JSON.stringify(options.thumbnailSizes)]);
+    }
+    if (options.filesOnly) {
+      params.push([`filesOnly`, options.filesOnly.toString()]);
+    }
+
+    return `?${params
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+      )
+      .join(`&`)}`;
+  }
 }

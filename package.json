@@ -15,15 +15,17 @@
     "prepare": "husky && echo \"#!/bin/sh\nnpx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
   },
   "dependencies": {
-    "astro-i18next": "^1.0.0-beta.21",
     "@astrojs/check": "^0.9.4",
     "@astrojs/tailwind": "^5.1.2",
+    "@octokit/rest": "^21.0.2",
     "astro": "^4.16.13",
+    "astro-i18next": "^1.0.0-beta.21",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongodb-level": "^0.0.4",
+    "multer": "^1.4.5-lts.1",
     "serverless-http": "^3.2.0",
     "tailwindcss": "^3.4.15",
     "tinacms": "^2.4.0",

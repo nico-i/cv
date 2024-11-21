@@ -1,4 +1,5 @@
-const puppeteer = require(`puppeteer`);
+import puppeteer from 'puppeteer';
+import fs from 'fs';
 
 (async () => {
   const baseUrl = new URL(process.argv[2]);
@@ -14,8 +15,6 @@ const puppeteer = require(`puppeteer`);
   ];
   const themes = [`light`, `dark`];
 
-  // create directory
-  const fs = require(`fs`);
   const dir = `docs/cv`;
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });

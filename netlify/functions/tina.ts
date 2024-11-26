@@ -48,10 +48,6 @@ const authProvider = isLocal
 const mediaHandler = createMediaHandler({
   authorized: async (req, _res) => {
     try {
-      if (process.env.NODE_ENV == `development`) {
-        return true;
-      }
-
       const user = await authProvider.isAuthorized(req, _res);
 
       return user && user.isAuthorized;

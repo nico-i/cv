@@ -4,7 +4,7 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
-    "dev": "tinacms dev -c \"netlify dev -c 'astro dev' \"",
+    "dev": "tinacms dev -c \"netlify dev -c 'astro dev' --verbose\"",
     "gen:i18n": "npx astro-i18next generate",
     "build": "tinacms build && astro check && astro build",
     "lint": "eslint .",

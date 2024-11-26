@@ -1,22 +1,21 @@
-import { Certificates } from './collections/Certificates';
-import { Concepts } from './collections/Concepts';
-import { Educations } from './collections/Educations';
-import { Frameworks } from './collections/Frameworks';
-import { Interests } from './collections/Interests';
-import { Jobs } from './collections/Jobs';
-import { Tools } from './collections/Tools';
-import { Languages } from './collections/Languages';
-import { Platforms } from './collections/Platforms';
-import { ProgrammingLanguages } from './collections/ProgrammingLanguages';
-import { Projects } from './collections/Projects';
-import { VolunteerProjects } from './collections/VolunteerProjects';
+import { Certificates } from './domain/entities/Certificates';
+import { Concepts } from './domain/entities/Concepts';
+import { Educations } from './domain/entities/Educations';
+import { Frameworks } from './domain/entities/Frameworks';
+import { Interests } from './domain/entities/Interests';
+import { Jobs } from './domain/entities/Jobs';
+import { Languages } from './domain/entities/Languages';
+import { Platforms } from './domain/entities/Platforms';
+import { ProgrammingLanguages } from './domain/entities/ProgrammingLanguages';
+import { Projects } from './domain/entities/Projects';
+import { Tools } from './domain/entities/Tools';
+import { VolunteerProjects } from './domain/entities/VolunteerProjects';
 
 import { defineConfig, LocalAuthProvider } from 'tinacms';
 import {
   TinaUserCollection,
   UsernamePasswordAuthJSProvider,
 } from 'tinacms-authjs/dist/tinacms';
-import { GitHubMediaStore } from './infrastructure/persisitence/github/GitHubMediaStore';
 
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === `true`;
 
@@ -30,11 +29,15 @@ export default defineConfig({
     publicFolder: `public`,
   },
   media: {
-    loadCustomStore: async () => GitHubMediaStore,
+    loadCustomStore: async () => {
+      const pack = await import(
+        `./infrastructure/persisitence/github/GitHubMediaStore`
+      );
+      return pack.GitHubMediaStore;
+    },
   },
   schema: {
     collections: [
-      TinaUserCollection,
       Projects,
       Educations,
       Jobs,
@@ -47,6 +50,7 @@ export default defineConfig({
       Concepts,
       Certificates,
       VolunteerProjects,
+      TinaUserCollection,
     ],
   },
 });

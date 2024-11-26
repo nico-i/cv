@@ -1,33 +1,28 @@
----
-import Card from "@/components/ui/Card.astro";
-import Gauge from "@/components/ui/Gauge.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Svg from "@/components/ui/Svg.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import CPU from "@/svg/cpu.svg?raw";
-import { Locale, StrapiSkillRepo } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+<!-- ---
+import Card from '@/components/ui/Card.astro';
+import Gauge from '@/components/ui/Gauge.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Svg from '@/components/ui/Svg.astro';
+import CPU from '@/svg/cpu.svg?raw';
+import i18next, { t } from 'i18next';
 
 interface Props {
   isPrint?: boolean;
 }
 const { isPrint = false }: Props = Astro.props;
 
-const locale = new Locale(i18next.language);
-const skillRepo = new StrapiSkillRepo(strapiClient);
-const skills = await skillRepo.getAllSkills(locale);
 ---
 
 <Card>
   <Fragment slot="title">
-    <SectionTitle title={t("skills")} svgHtml={CPU} />
+    <SectionTitle title={t('skills')} svgHtml={CPU} />
   </Fragment>
   <Fragment slot="content">
     <div
       class:list={[
         isPrint
-          ? "grid grid-cols-4 gap-3"
-          : "grid grid-cols-5 lg:grid-cols-4 gap-3",
+          ? 'grid grid-cols-4 gap-3'
+          : 'grid grid-cols-5 lg:grid-cols-4 gap-3',
       ]}
     >
       {
@@ -51,4 +46,4 @@ const skills = await skillRepo.getAllSkills(locale);
       }
     </div>
   </Fragment>
-</Card>
+</Card> -->

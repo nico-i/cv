@@ -1,67 +1,79 @@
 ---
-import Card from "@/components/ui/Card.astro";
+import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
-} from "@/components/ui/Details.astro";
-import ExternalIconLink from "@/components/ui/ExternalIconLink.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import TimeWindow from "@/components/ui/TimeWindow.astro";
-import Typography from "@/components/ui/Typography.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import PencilRuler from "@/svg/pencil-ruler.svg?raw";
-import { Locale, StrapiProjectRepo } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+} from '@/components/ui/Details.astro';
+import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import TimeWindow from '@/components/ui/TimeWindow.astro';
+import Typography from '@/components/ui/Typography.astro';
+import PencilRuler from '@/svg/pencil-ruler.svg?raw';
+import { t } from 'i18next';
+import databaseClient from 'tina/__generated__/databaseClient';
+import type { ProjectsQuery } from 'tina/__generated__/types';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
 }
 const { isPrint = false, ...detailsProps }: Props = Astro.props;
 
-const locale = new Locale(i18next.language);
-const projectRepo = new StrapiProjectRepo(strapiClient);
-const projects = await projectRepo.getAllProjects(locale);
+const projectConnections = (await databaseClient.queries.projectsConnection({}))
+  .data.projectsConnection.edges;
+
+const projects: NonNullable<ProjectsQuery['projects']>[] = [];
+
+projectConnections?.forEach((edge) => {
+  if (edge?.node) {
+    projects.push(edge.node);
+  }
+});
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("projects")} svgHtml={PencilRuler} />
-  </Fragment>
-  <Fragment slot="content">
-    {
-      projects.map((project) => {
-        return (
-          <Details
-            {...detailsProps}
-            isCompleted={project?.end !== undefined}
-            asTimeLine
-          >
-            <Typography variant="large" slot="title">
-              {project?.title}&hairsp;
-              {project?.demoUrl && (
-                <ExternalIconLink
-                  href={project.demoUrl.href}
-                  label={`${t("demo-site")} ${project.demoUrl}`}
-                />
-              )}
-            </Typography>
-            <div
-              slot="subtitle"
-              class:list={[
-                isPrint
-                  ? "flex flex-row gap-3"
-                  : "flex flex-col lg:flex-row lg:gap-3",
-              ]}
+{
+  projects.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('projects')} svgHtml={PencilRuler} />
+      </Fragment>
+      <Fragment slot="content">
+        {projects.map((project) => {
+          return (
+            <Details
+              {...detailsProps}
+              isCompleted={!project.endDate}
+              asTimeLine
             >
-              <TimeWindow start={project?.start!} end={project?.end} />
-            </div>
-            {project.mdSummary ? (
-              <Fragment slot="content" set:html={project.mdSummary?.toHtml()} />
-            ) : (
-              project.tldr
-            )}
-          </Details>
-        );
-      })
-    }
-  </Fragment>
-</Card>
+              <Typography variant="large" slot="title">
+                {project.name}&hairsp;
+                {project.demoUrl && (
+                  <ExternalIconLink
+                    href={project.demoUrl}
+                    label={`${t('demo-site')} ${project.demoUrl}`}
+                  />
+                )}
+              </Typography>
+              <div
+                slot="subtitle"
+                class:list={[
+                  isPrint
+                    ? 'flex flex-row gap-3'
+                    : 'flex flex-col lg:flex-row lg:gap-3',
+                ]}
+              >
+                <TimeWindow
+                  start={new Date(project.startDate)}
+                  end={project.endDate ? new Date(project.endDate) : undefined}
+                />
+              </div>
+              {project.description ? (
+                <Fragment slot="content" set:html={project.description} />
+              ) : (
+                project.tldr
+              )}
+            </Details>
+          );
+        })}
+      </Fragment>
+    </Card>
+  )
+}

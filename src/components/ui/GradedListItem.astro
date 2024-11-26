@@ -1,9 +1,9 @@
 ---
-import Typography from "@/components/ui/Typography.astro";
+import Typography from '@/components/ui/Typography.astro';
 
 interface Props {
   grade: string;
-  docUrl: string | undefined;
+  docUrl: string | null;
 }
 
 const { grade, docUrl }: Props = Astro.props;

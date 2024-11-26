@@ -1,23 +1,35 @@
 ---
-import Card from "@/components/ui/Card.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import Joystick from "@/svg/joystick.svg?raw";
-import { Locale, StrapiInterestRepo } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+import Card from '@/components/ui/Card.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Joystick from '@/svg/joystick.svg?raw';
+import { t } from 'i18next';
+import databaseClient from 'tina/__generated__/databaseClient';
+import type { InterestsQuery } from 'tina/__generated__/types';
 
-const locale = new Locale(i18next.language);
-const interestRepo = new StrapiInterestRepo(strapiClient);
-const interests = await interestRepo.getAllInterests(locale);
+const interestEdges = (await databaseClient.queries.interestsConnection({}))
+  .data.interestsConnection.edges;
+const interests: NonNullable<InterestsQuery['interests']>[] = [];
+
+interestEdges?.forEach((edge) => {
+  if (edge?.node) {
+    interests.push(edge.node);
+  }
+});
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("interests")} svgHtml={Joystick} />
-  </Fragment>
-  <Fragment slot="content">
-    <ul>
-      {interests?.map((interest) => <li>{interest.name}</li>)}
-    </ul>
-  </Fragment>
-</Card>
+{
+  interests.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('interests')} svgHtml={Joystick} />
+      </Fragment>
+      <Fragment slot="content">
+        <ul>
+          {interests.map((interest) => (
+            <li>{interest.name}</li>
+          ))}
+        </ul>
+      </Fragment>
+    </Card>
+  )
+}

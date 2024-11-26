@@ -1,8 +1,11 @@
-import { validateImageFieldFileExt } from '../validation/validateImageFieldFileExt';
-import { validateUrl } from '../validation/validateUrl';
+import { parseGitHubImage } from '../../domain/entities/GitHubFile';
+import {
+  validateImageFieldFileExt,
+  validateUrl,
+} from '../../domain/services/ValidationService';
 import type { Collection, TinaField } from 'tinacms';
 
-export const generateSkillTupleToCollection = (
+export const generateSkillBasedCollection = (
   [name, label]: [string, string],
   withIcon = true,
 ): Collection => {
@@ -19,10 +22,10 @@ export const generateSkillTupleToCollection = (
               name: `icon`,
               type: `image`,
               required: true,
-
               ui: {
                 description: `A SVG icon representing this ${singularCollectionItemName}.`,
                 validate: validateImageFieldFileExt(`.svg`, true),
+                parse: parseGitHubImage,
               },
             } satisfies TinaField,
           ]

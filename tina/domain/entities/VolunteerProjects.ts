@@ -1,5 +1,6 @@
-import { validateImageFieldFileExt } from '../helper/validation/validateImageFieldFileExt';
 import type { Collection } from 'tinacms';
+import { validateImageFieldFileExt } from '../services/ValidationService';
+import { parseGitHubImage } from './GitHubFile';
 
 export const VolunteerProjects: Collection = {
   name: `volunteerProjects`,
@@ -13,6 +14,7 @@ export const VolunteerProjects: Collection = {
       ui: {
         description: `A copy of the document that proves you volunteered for this project.`,
         validate: validateImageFieldFileExt(`.pdf`, false),
+        parse: parseGitHubImage,
       },
     },
     {

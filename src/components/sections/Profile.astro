@@ -1,19 +1,19 @@
----
-import Card from "@/components/ui/Card.astro";
-import Link from "@/components/ui/Link.astro";
-import Svg from "@/components/ui/Svg.astro";
-import Typography from "@/components/ui/Typography.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import Cake from "@/svg/cake.svg?raw";
-import MapPin from "@/svg/map-pin.svg?raw";
-import Phone from "@/svg/phone.svg?raw";
-import { Locale, StrapiInfoRepo } from "@nico-i/cv-data";
-import { Image } from "astro:assets";
-import i18next from "i18next";
+<!-- ---
+import Card from '@/components/ui/Card.astro';
+import Link from '@/components/ui/Link.astro';
+import Svg from '@/components/ui/Svg.astro';
+import Typography from '@/components/ui/Typography.astro';
+import Cake from '@/svg/cake.svg?raw';
+import MapPin from '@/svg/map-pin.svg?raw';
+import Phone from '@/svg/phone.svg?raw';
+import { Image } from 'astro:assets';
+import i18next from 'i18next';
+import {client} from 'tina/__generated__/client';
 
-const locale = new Locale(i18next.language);
-const infoRepo = new StrapiInfoRepo(strapiClient);
-const info = await infoRepo.getInfo(locale);
+const locale = i18next.language;
+const user = (await databaseClient.queries.user({
+    relativePath:
+})
 ---
 
 <Card contentClassName="flex flex-col gap-6">
@@ -21,7 +21,7 @@ const info = await infoRepo.getInfo(locale);
     {
       info?.portrait && (
         <Image
-          loading={"eager"}
+          loading={'eager'}
           src={info.portrait.url.href}
           width={info.portrait.width}
           height={info.portrait.height}
@@ -42,9 +42,9 @@ const info = await infoRepo.getInfo(locale);
         &hairsp;
         {
           info?.dob.toLocaleDateString(locale.value, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           })
         }
       </Typography>
@@ -82,4 +82,4 @@ const info = await infoRepo.getInfo(locale);
       }
     </ul>
   </Fragment>
-</Card>
+</Card> -->

@@ -39,6 +39,18 @@ export function isGitHubFile(file: unknown): file is GitHubFile {
   return true;
 }
 
+export function parseGitHubImage(media: unknown) {
+  if (
+    typeof media === `object` &&
+    media !== null &&
+    `src` in media &&
+    typeof media.src === `string`
+  ) {
+    return media.src;
+  }
+  return ``;
+}
+
 /**
  * Converts a GitHub file to a TinaCMS Media object
  * @param file The GitHub file to convert
@@ -79,8 +91,8 @@ export function toMedia(
   let thumbnails: Media[`thumbnails`];
 
   if (file.download_url !== null) {
+    src = file.download_url;
     if (file.name.match(/\.(jpeg|jpg|gif|png|svg)$/) != null) {
-      src = file.download_url;
       thumbnails = {
         '75x75': src,
         '400x400': src,
@@ -92,7 +104,7 @@ export function toMedia(
   return {
     ...commonMediaProps,
     type: `file`,
-    src,
-    thumbnails,
+    ...(src ? { src } : {}),
+    ...(thumbnails ? { thumbnails } : {}),
   };
 }

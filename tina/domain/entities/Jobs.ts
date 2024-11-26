@@ -1,4 +1,4 @@
-import { validateUrl } from '../helper/validation/validateUrl';
+import { validateUrl } from '../services/ValidationService';
 import type { Collection } from 'tinacms';
 
 export const Jobs: Collection = {

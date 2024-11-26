@@ -1,89 +1,101 @@
 ---
-import Card from "@/components/ui/Card.astro";
+import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
-} from "@/components/ui/Details.astro";
-import ExternalIconLink from "@/components/ui/ExternalIconLink.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Svg from "@/components/ui/Svg.astro";
-import TimeWindow from "@/components/ui/TimeWindow.astro";
-import Typography from "@/components/ui/Typography.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import Building2 from "@/svg/building-2.svg?raw";
-import Telescope from "@/svg/telescope.svg?raw";
-import { Locale, StrapiXpRepo, Xp } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+} from '@/components/ui/Details.astro';
+import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Svg from '@/components/ui/Svg.astro';
+import TimeWindow from '@/components/ui/TimeWindow.astro';
+import Typography from '@/components/ui/Typography.astro';
+import Building2 from '@/svg/building-2.svg?raw';
+import Telescope from '@/svg/telescope.svg?raw';
+import databaseClient from 'tina/__generated__/databaseClient';
+import { t } from 'i18next';
+import type { JobsQuery } from 'tina/__generated__/types';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
 }
 const { isPrint = false, ...detailsProps }: Props = Astro.props;
 
-const locale = new Locale(i18next.language);
-const xpRepo = new StrapiXpRepo(strapiClient);
-const xps = (await xpRepo.getAllXps(locale)).sort((a: Xp, b: Xp) => {
-  const aEnd = a.end?.valueOf();
-  const bEnd = b.end?.valueOf();
-  const aStart = a.start.valueOf();
-  const bStart = b.start.valueOf();
+const jobEdges = (await databaseClient.queries.jobsConnection({})).data
+  .jobsConnection.edges;
 
-  if (aEnd === undefined && bEnd === undefined) {
-    // If both are ongoing, sort by start date
-    return bStart - aStart;
+const jobs: NonNullable<JobsQuery['jobs']>[] = [];
+
+jobEdges?.forEach((edge) => {
+  if (edge?.node) {
+    jobsSortedFromNewest.push(edge.node);
   }
-  if (aEnd === undefined) {
+});
+
+const jobsSortedFromNewest = jobs.sort((a, b) => {
+  const { endDate: aEnd, startDate: aStart } = a;
+  const { endDate: bEnd, startDate: bStart } = b;
+  const aEndDate = aEnd ? new Date(aEnd).valueOf() : undefined;
+  const bEndDate = bEnd ? new Date(bEnd).valueOf() : undefined;
+  const aStartDate = new Date(aStart).valueOf();
+  const bStartDate = new Date(bStart).valueOf();
+
+  if (aEndDate === undefined && bEndDate === undefined) {
+    // If both are ongoing, sort by start date
+    return bStartDate - aStartDate;
+  }
+  if (aEndDate === undefined) {
     // If a is ongoing, put it first
     return -1;
   }
-  if (bEnd === undefined) {
+  if (bEndDate === undefined) {
     // If b is ongoing, put it first
     return 1;
   }
   // If both are not ongoing, sort by start date
-  return bStart - aStart;
+  return bStartDate - aStartDate;
 });
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("experience")} svgHtml={Telescope} />
-  </Fragment>
-  <Fragment slot="content">
-    {
-      xps.map((xp) => {
-        return (
-          <Details
-            isCompleted={xp?.end !== undefined}
-            asTimeLine
-            {...detailsProps}
-          >
-            <Typography variant="large" slot="title">
-              {xp?.position}
-            </Typography>
-            <div
-              slot="subtitle"
-              class:list={[
-                isPrint
-                  ? "flex flex-row gap-3"
-                  : "flex flex-col lg:flex-row lg:gap-3 gap-0.5",
-              ]}
-            >
-              <Typography variant="muted">
-                <Svg svgHtml={Building2} />
-                {xp.company}&hairsp;
-                {xp?.url && (
-                  <ExternalIconLink
-                    href={xp.url.href}
-                    label={`${xp.company} ${t("company-site")}`}
-                  />
-                )}
+{
+  jobsSortedFromNewest.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('experience')} svgHtml={Telescope} />
+      </Fragment>
+      <Fragment slot="content">
+        {jobsSortedFromNewest.map((job) => {
+          return (
+            <Details isCompleted={!job.endDate} asTimeLine {...detailsProps}>
+              <Typography variant="large" slot="title">
+                {job?.position}
               </Typography>
-              <TimeWindow start={xp?.start!} end={xp?.end} />
-            </div>
-            <Fragment slot="content" set:html={xp.info.toHtml()} />
-          </Details>
-        );
-      })
-    }
-  </Fragment>
-</Card>
+              <div
+                slot="subtitle"
+                class:list={[
+                  isPrint
+                    ? 'flex flex-row gap-3'
+                    : 'flex flex-col lg:flex-row lg:gap-3 gap-0.5',
+                ]}
+              >
+                <Typography variant="muted">
+                  <Svg svgHtml={Building2} />
+                  {job.company}&hairsp;
+                  {job?.url && (
+                    <ExternalIconLink
+                      href={job.url}
+                      label={`${job.company} ${t('company-site')}`}
+                    />
+                  )}
+                </Typography>
+                <TimeWindow
+                  start={new Date(job.startDate)}
+                  end={job.endDate ? new Date(job.endDate) : undefined}
+                />
+              </div>
+              <Fragment slot="content" set:html={job.description} />
+            </Details>
+          );
+        })}
+      </Fragment>
+    </Card>
+  )
+}

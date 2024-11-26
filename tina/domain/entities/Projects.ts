@@ -1,6 +1,7 @@
-import { technologyReferences } from '../helper/fields/technologyReferences';
-import { validateUrl } from '../helper/validation/validateUrl';
+import { TechnologyReferences } from '../../infrastructure/fields/TechnologyReferenceFields';
 import type { Collection } from 'tinacms';
+import { parseGitHubImage } from './GitHubFile';
+import { validateUrl } from '../services/ValidationService';
 
 export const Projects: Collection = {
   name: `projects`,
@@ -12,6 +13,10 @@ export const Projects: Collection = {
       name: `heroImage`,
       type: `image`,
       required: true,
+      ui: {
+        description: `An image that represents this project.`,
+        parse: parseGitHubImage,
+      },
     },
     {
       label: `Name`,
@@ -78,6 +83,6 @@ export const Projects: Collection = {
         description: `The date you finished this project. Leave blank if it's ongoing.`,
       },
     },
-    ...technologyReferences,
+    ...TechnologyReferences,
   ],
 };

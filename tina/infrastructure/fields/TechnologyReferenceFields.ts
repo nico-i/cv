@@ -1,8 +1,8 @@
-import { ProgrammingLanguages } from '../../collections/ProgrammingLanguages';
-import { Tools } from '../../collections/Tools';
+import { ProgrammingLanguages } from '../../domain/entities/ProgrammingLanguages';
+import { Tools } from '../../domain/entities/Tools';
 import type { TinaField } from 'tinacms';
 
-export const technologyReferences: TinaField[] = [
+export const TechnologyReferences: TinaField[] = [
   {
     label: Tools.label,
     name: Tools.name,

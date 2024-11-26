@@ -1,3 +1,6 @@
+[dev]
+targetPort = 4321
+
 [functions]
 node_bundler = "esbuild"
 

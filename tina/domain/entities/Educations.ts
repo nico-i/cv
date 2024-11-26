@@ -1,5 +1,6 @@
-import { validateImageFieldFileExt } from '../helper/validation/validateImageFieldFileExt';
 import type { Collection } from 'tinacms';
+import { parseGitHubImage } from './GitHubFile';
+import { validateImageFieldFileExt } from '../services/ValidationService';
 
 export const Educations: Collection = {
   name: `educations`,
@@ -13,6 +14,7 @@ export const Educations: Collection = {
       ui: {
         description: `A PDF certifying your completion of this degree.`,
         validate: validateImageFieldFileExt(`.pdf`, false),
+        parse: parseGitHubImage,
       },
     },
     {

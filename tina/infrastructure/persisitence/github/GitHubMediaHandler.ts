@@ -167,7 +167,7 @@ async function deleteMedia(
         branch,
         path: filePath,
         sha: querySha,
-        message: `docs(cms): deleted file "${queryFilePath}"`,
+        message: `docs(cms): deleted file "${queryFilePath}" [skip ci]`,
         author: commitAuthor,
         committer: commitAuthor,
       });
@@ -266,7 +266,7 @@ async function uploadMedia(
       owner,
       repo,
       path: filePath,
-      message: `docs(cms): created / updated file "${file.originalname}"`,
+      message: `docs(cms): created / updated file "${file.originalname} [skip ci]"`,
       author: commitAuthor,
       committer: commitAuthor,
       content: fileContent,

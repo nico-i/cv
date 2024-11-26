@@ -1,37 +1,46 @@
 ---
-import Card from "@/components/ui/Card.astro";
-import GradedListItem from "@/components/ui/GradedListItem.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Svg from "@/components/ui/Svg.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import LanguagesIcon from "@/svg/languages.svg?raw";
-import { Locale, StrapiLangRepo } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+import Card from '@/components/ui/Card.astro';
+import GradedListItem from '@/components/ui/GradedListItem.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Svg from '@/components/ui/Svg.astro';
+import LanguagesIcon from '@/svg/languages.svg?raw';
+import databaseClient from 'tina/__generated__/databaseClient';
+import { t } from 'i18next';
+import type { LanguagesQuery } from 'tina/__generated__/types';
 
-const locale = new Locale(i18next.language);
-const langRepo = new StrapiLangRepo(strapiClient);
-const langs = await langRepo.getAllLangs(locale);
+const langConnections = (await databaseClient.queries.LanguagesConnection({}))
+  .data.LanguagesConnection.edges;
+
+const langs: NonNullable<LanguagesQuery['Languages']>[] = [];
+
+langConnections?.forEach((edge) => {
+  if (edge?.node) {
+    langs.push(edge.node);
+  }
+});
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("langs")} svgHtml={LanguagesIcon} />
-  </Fragment>
-  <Fragment slot="content">
-    <ul class="flex flex-col gap-1.5 hide-bullets">
-      {
-        langs?.map((lang) => {
-          return (
-            <GradedListItem grade={lang.level} docUrl={undefined}>
-              <span slot="title">
-                <Svg svgHtml={lang.icon.fetchHtml()} className="w-6" />
-                &hairsp;
-                {lang.name}
-              </span>
-            </GradedListItem>
-          );
-        })
-      }
-    </ul>
-  </Fragment>
-</Card>
+{
+  langs.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('langs')} svgHtml={LanguagesIcon} />
+      </Fragment>
+      <Fragment slot="content">
+        <ul class="flex flex-col gap-1.5 hide-bullets">
+          {langs.map((lang) => {
+            return (
+              <GradedListItem grade={lang.level} docUrl={lang.document || null}>
+                <span slot="title">
+                  <Svg svgUrl={lang.icon} className="w-6" />
+                  &hairsp;
+                  {lang.name}
+                </span>
+              </GradedListItem>
+            );
+          })}
+        </ul>
+      </Fragment>
+    </Card>
+  )
+}

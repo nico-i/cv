@@ -1,52 +1,63 @@
 ---
-import Card from "@/components/ui/Card.astro";
-import ExternalIconLink from "@/components/ui/ExternalIconLink.astro";
-import GradedListItem from "@/components/ui/GradedListItem.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Svg from "@/components/ui/Svg.astro";
-import TimeWindow from "@/components/ui/TimeWindow.astro";
-import Typography from "@/components/ui/Typography.astro";
-import { strapiClient } from "@/helper/strapi-client";
-import GraduationCap from "@/svg/graduation-cap.svg?raw";
-import University from "@/svg/university.svg?raw";
-import { Locale, StrapiEdRepo } from "@nico-i/cv-data";
-import i18next, { t } from "i18next";
+import Card from '@/components/ui/Card.astro';
+import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import GradedListItem from '@/components/ui/GradedListItem.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Svg from '@/components/ui/Svg.astro';
+import TimeWindow from '@/components/ui/TimeWindow.astro';
+import Typography from '@/components/ui/Typography.astro';
+import GraduationCap from '@/svg/graduation-cap.svg?raw';
+import University from '@/svg/university.svg?raw';
+import databaseClient from 'tina/__generated__/databaseClient';
+import { t } from 'i18next';
+import type { EducationsQuery } from 'tina/__generated__/types';
 
-const locale = new Locale(i18next.language);
-const edRepo = new StrapiEdRepo(strapiClient);
-const eds = await edRepo.getAllEds(locale);
+const edEdges = (await databaseClient.queries.educationsConnection({})).data
+  .educationsConnection.edges;
+const eds: NonNullable<EducationsQuery['educations']>[] = [];
+
+edEdges?.forEach((edge) => {
+  if (edge?.node) {
+    eds.push(edge.node);
+  }
+});
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("education")} svgHtml={GraduationCap} />
-  </Fragment>
-  <Fragment slot="content">
-    <ul class="flex flex-col gap-5">
-      {
-        eds?.map((ed) => {
-          return (
-            <GradedListItem grade={ed?.grade} docUrl={ed?.doc?.url.href}>
-              <span slot="title">
-                {ed?.institute}&hairsp;
-                {ed?.url && (
-                  <ExternalIconLink
-                    href={ed?.url.href}
-                    label={`${t("document")}: ${ed.degree}`}
+{
+  eds.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('education')} svgHtml={GraduationCap} />
+      </Fragment>
+      <Fragment slot="content">
+        <ul class="flex flex-col gap-5">
+          {eds.map((ed) => {
+            return (
+              <GradedListItem grade={ed.grade} docUrl={ed.document || null}>
+                <span slot="title">
+                  {ed?.institute}&hairsp;
+                  {ed?.url && (
+                    <ExternalIconLink
+                      href={ed.url}
+                      label={`${t('document')}: ${ed.degree}`}
+                    />
+                  )}
+                </span>
+                <div class="flex flex-col gap-0.5" slot="subtitle">
+                  <Typography variant="muted">
+                    <Svg svgHtml={University} />
+                    {ed?.degree}
+                  </Typography>
+                  <TimeWindow
+                    start={new Date(ed.startDate)}
+                    end={new Date(ed.endDate)}
                   />
-                )}
-              </span>
-              <div class="flex flex-col gap-0.5" slot="subtitle">
-                <Typography variant="muted">
-                  <Svg svgHtml={University} />
-                  {ed?.degree}
-                </Typography>
-                <TimeWindow start={ed?.start} end={ed?.end} />
-              </div>
-            </GradedListItem>
-          );
-        })
-      }
-    </ul>
-  </Fragment>
-</Card>
+                </div>
+              </GradedListItem>
+            );
+          })}
+        </ul>
+      </Fragment>
+    </Card>
+  )
+}

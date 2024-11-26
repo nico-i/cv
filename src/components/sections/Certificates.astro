@@ -1,70 +1,82 @@
 ---
-import Card from "@/components/ui/Card.astro";
+import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
-} from "@/components/ui/Details.astro";
-import ExternalIconLink from "@/components/ui/ExternalIconLink.astro";
-import SectionTitle from "@/components/ui/SectionTitle.astro";
-import Svg from "@/components/ui/Svg.astro";
-import Typography from "@/components/ui/Typography.astro";
-import Building from "@/svg/building.svg?raw";
-import Calendar from "@/svg/calendar-days.svg?raw";
-import ShieldCheck from "@/svg/shield-check.svg?raw";
-import i18next, { t } from "i18next";
+} from '@/components/ui/Details.astro';
+import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import SectionTitle from '@/components/ui/SectionTitle.astro';
+import Svg from '@/components/ui/Svg.astro';
+import Typography from '@/components/ui/Typography.astro';
+import Building from '@/svg/building.svg?raw';
+import Calendar from '@/svg/calendar-days.svg?raw';
+import ShieldCheck from '@/svg/shield-check.svg?raw';
+import i18next, { t } from 'i18next';
+import type { Certificates, CertificatesQuery } from 'tina/__generated__/types';
+import databaseClient from 'tina/__generated__/databaseClient';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
 }
 const { isPrint = false, ...detailsProps }: Props = Astro.props;
-const locale = new Locale(i18next.language);
+const locale = i18next.language;
 
-const certs = await repo.getAllCerts(locale);
+const certEdges = (await databaseClient.queries.certificatesConnection({})).data
+  .certificatesConnection.edges;
+const certs: NonNullable<CertificatesQuery['certificates']>[] = [];
+
+certEdges?.forEach((edge) => {
+  if (edge?.node) {
+    certs.push(edge.node);
+  }
+});
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t("certs")} svgHtml={ShieldCheck} />
-  </Fragment>
-  <Fragment slot="content">
-    {
-      certs?.map((cert) => {
-        return (
-          <Details {...detailsProps}>
-            <Typography variant="large" slot="title">
-              {cert.title}&hairsp;
-              {cert.doc?.url && (
-                <ExternalIconLink
-                  href={cert.doc.url.href}
-                  label={`${t("document")}: ${cert.title}`}
-                />
-              )}
-            </Typography>
-            <div
-              class:list={[
-                isPrint
-                  ? "flex flex-row gap-3"
-                  : "flex flex-col lg:flex-row lg:gap-3",
-              ]}
-              slot="subtitle"
-            >
-              <Typography variant="muted">
-                <Svg svgHtml={Building} />
-                {cert.issuer}
+{
+  certs.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('certs')} svgHtml={ShieldCheck} />
+      </Fragment>
+      <Fragment slot="content">
+        {certs?.map((cert) => {
+          return (
+            <Details {...detailsProps}>
+              <Typography variant="large" slot="title">
+                {cert.name}&hairsp;
+                {cert?.document && (
+                  <ExternalIconLink
+                    href={cert.document}
+                    label={`${t('document')}: ${cert.name}`}
+                  />
+                )}
               </Typography>
-              <Typography variant="muted">
-                <Svg svgHtml={Calendar} />
+              <div
+                class:list={[
+                  isPrint
+                    ? 'flex flex-row gap-3'
+                    : 'flex flex-col lg:flex-row lg:gap-3',
+                ]}
+                slot="subtitle"
+              >
+                <Typography variant="muted">
+                  <Svg svgHtml={Building} />
+                  {cert.issuer}
+                </Typography>
+                <Typography variant="muted">
+                  <Svg svgHtml={Calendar} />
 
-                {cert.received.toLocaleDateString(locale.value, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </Typography>
-            </div>
-            <Fragment set:html={cert.mdInfo.toHtml()} slot="content" />
-          </Details>
-        );
-      })
-    }
-  </Fragment>
-</Card>
+                  {new Date(cert.receivedDate).toLocaleDateString(locale, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </Typography>
+              </div>
+              <Fragment set:html={cert.description} slot="content" />
+            </Details>
+          );
+        })}
+      </Fragment>
+    </Card>
+  )
+}

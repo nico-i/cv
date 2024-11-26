@@ -29,10 +29,12 @@ export function toMedia(
         .replace(dirPathPrefixToRemove, ``)
     : file.path;
 
+  const filePath = file.path;
+
   const commonMediaProps: Omit<Media, `type`> = {
     directory: dirPath,
     filename: file.name,
-    id: `${file.sha}-${file.name}`,
+    id: filePath,
   };
 
   if (file.type === `dir`) {

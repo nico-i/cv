@@ -54,9 +54,10 @@ export class GitHubMediaStore implements MediaStore {
     return newFiles;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  delete(media: Media): Promise<void> {
-    throw new Error(`Delete Method not implemented.`);
+  async delete(media: Media): Promise<void> {
+    await fetch(`${this.baseUrl}/${encodeURIComponent(media.id)}`, {
+      method: `DELETE`,
+    });
   }
 
   async list(options?: MediaListOptions): Promise<MediaList> {

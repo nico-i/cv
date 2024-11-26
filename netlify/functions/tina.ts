@@ -87,9 +87,6 @@ app.get(`/api/tina/*`, async (req, res) => {
 
 app.get(`/api/github/media`, mediaHandler);
 app.post(`/api/github/media`, mediaHandler);
-app.delete(`/api/github/media/:media`, (req, res, next) => {
-  req.query.media = [`media`, req.params.media];
-  return mediaHandler(req, res, next);
-});
+app.delete(`/api/github/media`, mediaHandler);
 
 export const handler = ServerlessHttp(app);

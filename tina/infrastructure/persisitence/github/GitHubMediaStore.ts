@@ -1,4 +1,3 @@
-import type { RestEndpointMethodTypes } from '@octokit/rest';
 import {
   DEFAULT_MEDIA_UPLOAD_TYPES,
   type Media,
@@ -7,7 +6,6 @@ import {
   type MediaStore,
   type MediaUploadOptions,
 } from 'tinacms';
-import { toMedia, type GitHubFile } from '../../../domain/entities/GitHubFile';
 
 export interface GitHubMediaStoreOptions {
   baseUrl?: string;
@@ -42,20 +40,23 @@ export class GitHubMediaStore implements MediaStore {
         throw new Error(responseData.message);
       }
 
-      const data: RestEndpointMethodTypes[`repos`][`createOrUpdateFileContents`][`response`][`data`] =
-        await res.json();
+      const media: Media = await res.json();
 
-      const ghFile = data.content as GitHubFile; //
-      const mediaFile = toMedia(ghFile);
-
-      newFiles.push(mediaFile);
+      newFiles.push(media);
     }
 
     return newFiles;
   }
 
   async delete(media: Media): Promise<void> {
-    await fetch(`${this.baseUrl}/${encodeURIComponent(media.id)}`, {
+    const queryParams = new URLSearchParams();
+
+    const filePath = `${media.directory}/${media.filename}`;
+    queryParams.set(`path`, filePath);
+    queryParams.set(`sha`, media.id);
+
+    const targetUrl = `${this.baseUrl}?${queryParams.toString()}`;
+    await fetch(targetUrl, {
       method: `DELETE`,
     });
   }

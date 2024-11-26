@@ -1,11 +1,11 @@
 import { Octokit, type RestEndpointMethodTypes } from '@octokit/rest';
 import type { Request, RequestHandler, Response } from 'express';
+import * as fs from 'fs/promises';
 import multer from 'multer';
 import path from 'path';
 import type { MediaListOptions } from 'tinacms';
 import { promisify } from 'util';
-import * as fs from 'fs/promises';
-import { toMedia } from '../../../domain/entities/GitHubFile';
+import { isGitHubFile, toMedia } from '../../../domain/entities/GitHubFile';
 
 export interface GitHubMediaHandlerConfig {
   /**
@@ -33,6 +33,11 @@ export interface GitHubMediaHandlerConfig {
    */
   basePath: string;
 }
+
+const commitAuthor = {
+  name: `TinaCMS GitHub Media Store`,
+  email: `nico@ismaili.de`,
+};
 
 export const createMediaHandler = (
   config: GitHubMediaHandlerConfig,
@@ -68,7 +73,7 @@ export const createMediaHandler = (
         return;
       }
       case `DELETE`: {
-        res.status(500).json({ message: `DELETE Method not implemented.` });
+        deleteMedia(req, res, config, octokit);
         return;
       }
       default: {
@@ -123,6 +128,60 @@ async function listMedia(
   } catch (e) {
     res.status(500).json({
       message: `Failed to get content from GitHub repo. Response: ${e}`,
+    });
+  }
+}
+
+async function deleteMedia(
+  req: Request,
+  res: Response,
+  config: GitHubMediaHandlerConfig,
+  octokit: Octokit,
+) {
+  try {
+    const { query } = req;
+
+    const queryFilePath = query[`path`];
+    if (!queryFilePath || typeof queryFilePath !== `string`) {
+      res.status(400).json({
+        message: `Invalid "path" query parameter`,
+      });
+      return;
+    }
+
+    const querySha = query[`sha`];
+    if (!querySha || typeof querySha !== `string`) {
+      res.status(400).json({
+        message: `Invalid "sha" query parameter`,
+      });
+      return;
+    }
+
+    const filePath = path.join(config.basePath, queryFilePath);
+
+    try {
+      const { owner, repo, branch } = config;
+      await octokit.repos.deleteFile({
+        owner,
+        repo,
+        branch,
+        path: filePath,
+        sha: querySha,
+        message: `docs(cms): deleted file "${queryFilePath}"`,
+        author: commitAuthor,
+        committer: commitAuthor,
+      });
+    } catch (e) {
+      res.status(500).json({
+        message: `Failed to delete file from GitHub. Error: ${e}`,
+      });
+      return;
+    }
+    res.status(200).json({ message: `File deleted successfully` });
+    return;
+  } catch (e) {
+    res.status(500).json({
+      message: `Failed to delete file. Error: ${e}`,
     });
   }
 }
@@ -189,11 +248,11 @@ async function uploadMedia(
     // File doesn't exist yet, which is fine
   }
 
-  let content: string;
+  let fileContent: string;
   try {
     // Read file from disk and convert to base64
     const fileBuffer = await fs.readFile(file.path);
-    content = fileBuffer.toString(`base64`);
+    fileContent = fileBuffer.toString(`base64`);
   } catch (e) {
     res.status(500).json({
       message: `Failed to convert file to base64. Error: ${e}`,
@@ -208,11 +267,9 @@ async function uploadMedia(
       repo,
       path: filePath,
       message: `docs(cms): created / updated file "${file.originalname}"`,
-      author: {
-        name: `TinaCMS GitHub Media Store`,
-        email: `nico@ismaili.de`,
-      },
-      content,
+      author: commitAuthor,
+      committer: commitAuthor,
+      content: fileContent,
       branch,
       sha: fileSha, // Only needed when updating an existing file
     });
@@ -223,7 +280,20 @@ async function uploadMedia(
     return;
   }
 
-  res.status(200).json(response.data);
+  const { content: ghFileRes } = response.data;
+  if (!isGitHubFile(ghFileRes)) {
+    res.status(500).json({
+      message: `Received invalid response from GitHub. Expected GitHub file, got ${JSON.stringify(
+        response.data,
+        null,
+        2,
+      )}`,
+    });
+    return;
+  }
+
+  const ghFile = toMedia(ghFileRes, basePath);
+  res.status(200).json(ghFile);
 }
 
 function toMediaListOptions(queryString: string): MediaListOptions {

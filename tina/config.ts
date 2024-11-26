@@ -16,7 +16,7 @@ import {
   TinaUserCollection,
   UsernamePasswordAuthJSProvider,
 } from 'tinacms-authjs/dist/tinacms';
-import { GitHubMediaStore } from './helper/media/GitHubMediaStore';
+import { GitHubMediaStore } from './infrastructure/persisitence/github/GitHubMediaStore';
 
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === `true`;
 

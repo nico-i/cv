@@ -7,7 +7,7 @@ import ServerlessHttp from 'serverless-http';
 import { AuthJsBackendAuthProvider, TinaAuthJSOptions } from 'tinacms-authjs';
 
 import { databaseClient } from '../../tina/__generated__/databaseClient';
-import { createMediaHandler } from '../../tina/helper/media/GithubMediaHandler';
+import { createMediaHandler } from '../../tina/infrastructure/persisitence/github/GitHubMediaHandler';
 
 dotenv.config();
 

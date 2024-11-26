@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- WIP */
+import type { RestEndpointMethodTypes } from '@octokit/rest';
 import {
   DEFAULT_MEDIA_UPLOAD_TYPES,
   type Media,
@@ -7,6 +7,7 @@ import {
   type MediaStore,
   type MediaUploadOptions,
 } from 'tinacms';
+import { toMedia, type GitHubFile } from '../../../domain/entities/GitHubFile';
 
 export interface GitHubMediaStoreOptions {
   baseUrl?: string;
@@ -20,10 +21,40 @@ export class GitHubMediaStore implements MediaStore {
     this.baseUrl = options?.baseUrl || `/api/github/media`;
   }
 
-  persist(files: MediaUploadOptions[]): Promise<Media[]> {
-    throw new Error(`Persist Method not implemented.`);
+  async persist(media: MediaUploadOptions[]): Promise<Media[]> {
+    const newFiles: Media[] = [];
+
+    for (const item of media) {
+      const { file, directory } = item;
+
+      const formData = new FormData();
+      formData.append(`file`, file);
+      formData.append(`directory`, directory);
+      formData.append(`filename`, file.name);
+
+      const res = await fetch(this.baseUrl, {
+        method: `POST`,
+        body: formData,
+      });
+
+      if (res.status != 200) {
+        const responseData = await res.json();
+        throw new Error(responseData.message);
+      }
+
+      const data: RestEndpointMethodTypes[`repos`][`createOrUpdateFileContents`][`response`][`data`] =
+        await res.json();
+
+      const ghFile = data.content as GitHubFile; //
+      const mediaFile = toMedia(ghFile);
+
+      newFiles.push(mediaFile);
+    }
+
+    return newFiles;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   delete(media: Media): Promise<void> {
     throw new Error(`Delete Method not implemented.`);
   }
@@ -34,6 +65,7 @@ export class GitHubMediaStore implements MediaStore {
     const allFiles: Media[] = await fetch(this.baseUrl + query).then((res) =>
       res.json(),
     );
+
     return {
       items: allFiles,
     };

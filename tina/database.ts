@@ -1,4 +1,4 @@
-import { createDatabase } from '@tinacms/datalayer';
+import { createDatabase, createLocalDatabase } from '@tinacms/datalayer';
 import MongodbLevel from 'mongodb-level';
 import { GitHubProvider } from 'tinacms-gitprovider-github/dist/index';
 
@@ -27,16 +27,22 @@ if (!mongoUri) {
   throw new Error(`MONGODB_URI is required`);
 }
 
-export default createDatabase({
-  gitProvider: new GitHubProvider({
-    owner,
-    repo,
-    token,
-    branch,
-  }),
-  databaseAdapter: new MongodbLevel.MongodbLevel({
-    collectionName: branch,
-    dbName: `tinacms`,
-    mongoUri: mongoUri,
-  }),
-});
+const isLocal = process.env.IS_LOCAL_ENV === `true`;
+
+const db = isLocal
+  ? createLocalDatabase()
+  : createDatabase({
+      gitProvider: new GitHubProvider({
+        owner,
+        repo,
+        token,
+        branch,
+      }),
+      databaseAdapter: new MongodbLevel.MongodbLevel({
+        collectionName: branch,
+        dbName: `tinacms`,
+        mongoUri: mongoUri,
+      }),
+    });
+
+export default db;

@@ -45,6 +45,12 @@ export const Me: Collection = {
       label: `Current hometown`,
     },
     {
+      type: `string`,
+      name: `interests`,
+      label: `Interests`,
+      list: true,
+    },
+    {
       type: `object`,
       list: true,
       name: `contactLinks`,

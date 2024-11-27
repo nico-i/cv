@@ -1,3 +1,6 @@
 import { generateSkillBasedCollection } from '../../../infrastructure/generators/SkillBasedCollectionGenerator';
 
-export const Tools = generateSkillBasedCollection([`tools`, `Tools`]);
+export const Tools = generateSkillBasedCollection({
+  name: `tools`,
+  label: `Tools`,
+});

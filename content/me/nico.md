@@ -8,6 +8,11 @@ bio: ''
 birthDate: 2000-07-28T22:00:00.000Z
 phone: +49 176 471 176 12
 residence: 'Simmern, Germany'
+interests:
+  - 3D-Printing
+  - Photography
+  - Guitar
+  - Automation
 contactLinks:
   - icon: >-
       https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/vector/icons/mail.svg

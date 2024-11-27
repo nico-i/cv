@@ -100,7 +100,7 @@
             "name": "name",
             "type": "string",
             "required": true,
-            "ui": { "description": "The name of this concept." },
+            "ui": { "description": "The name of this Concept." },
             "namespace": ["concepts", "name"],
             "searchable": true,
             "uid": false
@@ -111,7 +111,7 @@
             "type": "string",
             "required": true,
             "ui": {
-              "description": "A URL to where you can learn more about this concept."
+              "description": "A URL to where you can learn more about this Concept."
             },
             "namespace": ["concepts", "url"],
             "searchable": true,
@@ -122,7 +122,7 @@
             "name": "description",
             "type": "rich-text",
             "required": true,
-            "ui": { "description": "A short description of this concept." },
+            "ui": { "description": "A short description of this Concept." },
             "namespace": ["concepts", "description"],
             "searchable": true,
             "parser": { "type": "markdown" },
@@ -134,7 +134,7 @@
             "type": "number",
             "required": true,
             "ui": {
-              "description": "A value between 0 and 100 determining your proficiency with this concept."
+              "description": "A value between 0 and 100 determining your proficiency with this Concept."
             },
             "namespace": ["concepts", "proficiency"],
             "searchable": true,
@@ -253,7 +253,9 @@
             "name": "icon",
             "type": "image",
             "required": true,
-            "ui": { "description": "A SVG icon representing this framework." },
+            "ui": {
+              "description": "A SVG icon representing this Framework (checkout <a href=\"https://react-icons.github.io/react-icons\" target=\"_blank\" rel=\"noopener noreferrer\">React Icons</a>)."
+            },
             "namespace": ["frameworks", "icon"],
             "searchable": false,
             "uid": false
@@ -263,7 +265,7 @@
             "name": "name",
             "type": "string",
             "required": true,
-            "ui": { "description": "The name of this framework." },
+            "ui": { "description": "The name of this Framework." },
             "namespace": ["frameworks", "name"],
             "searchable": true,
             "uid": false
@@ -274,7 +276,7 @@
             "type": "string",
             "required": true,
             "ui": {
-              "description": "A URL to where you can learn more about this framework."
+              "description": "A URL to where you can learn more about this Framework."
             },
             "namespace": ["frameworks", "url"],
             "searchable": true,
@@ -285,7 +287,7 @@
             "name": "description",
             "type": "rich-text",
             "required": true,
-            "ui": { "description": "A short description of this framework." },
+            "ui": { "description": "A short description of this Framework." },
             "namespace": ["frameworks", "description"],
             "searchable": true,
             "parser": { "type": "markdown" },
@@ -297,7 +299,7 @@
             "type": "number",
             "required": true,
             "ui": {
-              "description": "A value between 0 and 100 determining your proficiency with this framework."
+              "description": "A value between 0 and 100 determining your proficiency with this Framework."
             },
             "namespace": ["frameworks", "proficiency"],
             "searchable": true,
@@ -316,24 +318,6 @@
           }
         ],
         "namespace": ["frameworks"]
-      },
-      {
-        "name": "interests",
-        "label": "Interests",
-        "path": "content/interests",
-        "fields": [
-          {
-            "label": "Name",
-            "name": "name",
-            "type": "string",
-            "required": true,
-            "ui": { "description": "The name of this interest." },
-            "namespace": ["interests", "name"],
-            "searchable": true,
-            "uid": false
-          }
-        ],
-        "namespace": ["interests"]
       },
       {
         "name": "jobs",
@@ -535,6 +519,15 @@
             "uid": false
           },
           {
+            "type": "string",
+            "name": "interests",
+            "label": "Interests",
+            "list": true,
+            "namespace": ["me", "interests"],
+            "searchable": true,
+            "uid": false
+          },
+          {
             "type": "object",
             "list": true,
             "name": "contactLinks",
@@ -596,7 +589,9 @@
             "name": "icon",
             "type": "image",
             "required": true,
-            "ui": { "description": "A SVG icon representing this platform." },
+            "ui": {
+              "description": "A SVG icon representing this Platform (checkout <a href=\"https://react-icons.github.io/react-icons\" target=\"_blank\" rel=\"noopener noreferrer\">React Icons</a>)."
+            },
             "namespace": ["platforms", "icon"],
             "searchable": false,
             "uid": false
@@ -606,7 +601,7 @@
             "name": "name",
             "type": "string",
             "required": true,
-            "ui": { "description": "The name of this platform." },
+            "ui": { "description": "The name of this Platform." },
             "namespace": ["platforms", "name"],
             "searchable": true,
             "uid": false
@@ -617,7 +612,7 @@
             "type": "string",
             "required": true,
             "ui": {
-              "description": "A URL to where you can learn more about this platform."
+              "description": "A URL to where you can learn more about this Platform."
             },
             "namespace": ["platforms", "url"],
             "searchable": true,
@@ -628,7 +623,7 @@
             "name": "description",
             "type": "rich-text",
             "required": true,
-            "ui": { "description": "A short description of this platform." },
+            "ui": { "description": "A short description of this Platform." },
             "namespace": ["platforms", "description"],
             "searchable": true,
             "parser": { "type": "markdown" },
@@ -640,7 +635,7 @@
             "type": "number",
             "required": true,
             "ui": {
-              "description": "A value between 0 and 100 determining your proficiency with this platform."
+              "description": "A value between 0 and 100 determining your proficiency with this Platform."
             },
             "namespace": ["platforms", "proficiency"],
             "searchable": true,
@@ -670,7 +665,9 @@
             "name": "icon",
             "type": "image",
             "required": true,
-            "ui": { "description": "A SVG icon representing this progLang." },
+            "ui": {
+              "description": "A SVG icon representing this Programming Language (checkout <a href=\"https://react-icons.github.io/react-icons\" target=\"_blank\" rel=\"noopener noreferrer\">React Icons</a>)."
+            },
             "namespace": ["progLangs", "icon"],
             "searchable": false,
             "uid": false
@@ -680,7 +677,7 @@
             "name": "name",
             "type": "string",
             "required": true,
-            "ui": { "description": "The name of this progLang." },
+            "ui": { "description": "The name of this Programming Language." },
             "namespace": ["progLangs", "name"],
             "searchable": true,
             "uid": false
@@ -691,7 +688,7 @@
             "type": "string",
             "required": true,
             "ui": {
-              "description": "A URL to where you can learn more about this progLang."
+              "description": "A URL to where you can learn more about this Programming Language."
             },
             "namespace": ["progLangs", "url"],
             "searchable": true,
@@ -702,7 +699,9 @@
             "name": "description",
             "type": "rich-text",
             "required": true,
-            "ui": { "description": "A short description of this progLang." },
+            "ui": {
+              "description": "A short description of this Programming Language."
+            },
             "namespace": ["progLangs", "description"],
             "searchable": true,
             "parser": { "type": "markdown" },
@@ -714,7 +713,7 @@
             "type": "number",
             "required": true,
             "ui": {
-              "description": "A value between 0 and 100 determining your proficiency with this progLang."
+              "description": "A value between 0 and 100 determining your proficiency with this Programming Language."
             },
             "namespace": ["progLangs", "proficiency"],
             "searchable": true,
@@ -877,7 +876,9 @@
             "name": "icon",
             "type": "image",
             "required": true,
-            "ui": { "description": "A SVG icon representing this tool." },
+            "ui": {
+              "description": "A SVG icon representing this Tool (checkout <a href=\"https://react-icons.github.io/react-icons\" target=\"_blank\" rel=\"noopener noreferrer\">React Icons</a>)."
+            },
             "namespace": ["tools", "icon"],
             "searchable": false,
             "uid": false
@@ -887,7 +888,7 @@
             "name": "name",
             "type": "string",
             "required": true,
-            "ui": { "description": "The name of this tool." },
+            "ui": { "description": "The name of this Tool." },
             "namespace": ["tools", "name"],
             "searchable": true,
             "uid": false
@@ -898,7 +899,7 @@
             "type": "string",
             "required": true,
             "ui": {
-              "description": "A URL to where you can learn more about this tool."
+              "description": "A URL to where you can learn more about this Tool."
             },
             "namespace": ["tools", "url"],
             "searchable": true,
@@ -909,7 +910,7 @@
             "name": "description",
             "type": "rich-text",
             "required": true,
-            "ui": { "description": "A short description of this tool." },
+            "ui": { "description": "A short description of this Tool." },
             "namespace": ["tools", "description"],
             "searchable": true,
             "parser": { "type": "markdown" },
@@ -921,7 +922,7 @@
             "type": "number",
             "required": true,
             "ui": {
-              "description": "A value between 0 and 100 determining your proficiency with this tool."
+              "description": "A value between 0 and 100 determining your proficiency with this Tool."
             },
             "namespace": ["tools", "proficiency"],
             "searchable": true,
@@ -1100,7 +1101,6 @@
         "concepts",
         "educations",
         "frameworks",
-        "interests",
         "jobs",
         "Languages",
         "me",
@@ -1166,18 +1166,6 @@
       "type": "FrameworksConnection",
       "resolveType": "collectionDocumentList",
       "collection": "frameworks"
-    },
-    "Interests": {
-      "type": "Interests",
-      "resolveType": "collectionDocument",
-      "collection": "interests",
-      "createInterests": "create",
-      "updateInterests": "update"
-    },
-    "InterestsConnection": {
-      "type": "InterestsConnection",
-      "resolveType": "collectionDocumentList",
-      "collection": "interests"
     },
     "Jobs": {
       "type": "Jobs",
@@ -2088,88 +2076,6 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "interests" },
-            "arguments": [
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "relativePath" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "String" }
-                }
-              }
-            ],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "Interests" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "interestsConnection" },
-            "arguments": [
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "before" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "String" }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "after" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "String" }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "first" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "Float" }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "last" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "Float" }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "sort" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "String" }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "filter" },
-                "type": {
-                  "kind": "NamedType",
-                  "name": { "kind": "Name", "value": "InterestsFilter" }
-                }
-              }
-            ],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "InterestsConnection" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
             "name": { "kind": "Name", "value": "jobs" },
             "arguments": [
               {
@@ -2990,14 +2896,6 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "interests" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "InterestsFilter" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "jobs" },
             "type": {
               "kind": "NamedType",
@@ -3332,10 +3230,6 @@
           {
             "kind": "NamedType",
             "name": { "kind": "Name", "value": "Frameworks" }
-          },
-          {
-            "kind": "NamedType",
-            "name": { "kind": "Name", "value": "Interests" }
           },
           { "kind": "NamedType", "name": { "kind": "Name", "value": "Jobs" } },
           {
@@ -4621,160 +4515,6 @@
           }
         ],
         "directives": [],
-        "name": { "kind": "Name", "value": "Interests" },
-        "fields": [
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "name" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "String" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "id" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "ID" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "_sys" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "SystemInfo" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "_values" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "JSON" }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "InputObjectTypeDefinition",
-        "name": { "kind": "Name", "value": "InterestsFilter" },
-        "fields": [
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "name" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "StringFilter" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "ObjectTypeDefinition",
-        "interfaces": [],
-        "directives": [],
-        "name": { "kind": "Name", "value": "InterestsConnectionEdges" },
-        "fields": [
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "cursor" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "String" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "node" },
-            "arguments": [],
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Interests" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "ObjectTypeDefinition",
-        "interfaces": [
-          {
-            "kind": "NamedType",
-            "name": { "kind": "Name", "value": "Connection" }
-          }
-        ],
-        "directives": [],
-        "name": { "kind": "Name", "value": "InterestsConnection" },
-        "fields": [
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "pageInfo" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "PageInfo" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "totalCount" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "Float" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "edges" },
-            "arguments": [],
-            "type": {
-              "kind": "ListType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "InterestsConnectionEdges" }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "ObjectTypeDefinition",
-        "interfaces": [
-          { "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
-          {
-            "kind": "NamedType",
-            "name": { "kind": "Name", "value": "Document" }
-          }
-        ],
-        "directives": [],
         "name": { "kind": "Name", "value": "Jobs" },
         "fields": [
           {
@@ -5381,6 +5121,18 @@
           },
           {
             "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "interests" },
+            "arguments": [],
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "String" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
             "name": { "kind": "Name", "value": "contactLinks" },
             "arguments": [],
             "type": {
@@ -5522,6 +5274,14 @@
           {
             "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "residence" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "StringFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "interests" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -7829,76 +7589,6 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "updateInterests" },
-            "arguments": [
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "relativePath" },
-                "type": {
-                  "kind": "NonNullType",
-                  "type": {
-                    "kind": "NamedType",
-                    "name": { "kind": "Name", "value": "String" }
-                  }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "params" },
-                "type": {
-                  "kind": "NonNullType",
-                  "type": {
-                    "kind": "NamedType",
-                    "name": { "kind": "Name", "value": "InterestsMutation" }
-                  }
-                }
-              }
-            ],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "Interests" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "createInterests" },
-            "arguments": [
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "relativePath" },
-                "type": {
-                  "kind": "NonNullType",
-                  "type": {
-                    "kind": "NamedType",
-                    "name": { "kind": "Name", "value": "String" }
-                  }
-                }
-              },
-              {
-                "kind": "InputValueDefinition",
-                "name": { "kind": "Name", "value": "params" },
-                "type": {
-                  "kind": "NonNullType",
-                  "type": {
-                    "kind": "NamedType",
-                    "name": { "kind": "Name", "value": "InterestsMutation" }
-                  }
-                }
-              }
-            ],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "Interests" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
             "name": { "kind": "Name", "value": "updateJobs" },
             "arguments": [
               {
@@ -8597,14 +8287,6 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "interests" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "InterestsMutation" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "jobs" },
             "type": {
               "kind": "NamedType",
@@ -8719,14 +8401,6 @@
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "FrameworksMutation" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "interests" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "InterestsMutation" }
             }
           },
           {
@@ -9029,20 +8703,6 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
-        "name": { "kind": "Name", "value": "InterestsMutation" },
-        "fields": [
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "name" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "String" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "JobsMutation" },
         "fields": [
           {
@@ -9229,6 +8889,17 @@
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "interests" },
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "String" }
+              }
             }
           },
           {

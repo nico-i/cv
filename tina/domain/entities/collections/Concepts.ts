@@ -1,6 +1,7 @@
 import { generateSkillBasedCollection } from '../../../infrastructure/generators/SkillBasedCollectionGenerator';
 
-export const Concepts = generateSkillBasedCollection(
-  [`concepts`, `Concepts`],
-  false,
-);
+export const Concepts = generateSkillBasedCollection({
+  name: `concepts`,
+  label: `Concepts`,
+  withIcon: false,
+});

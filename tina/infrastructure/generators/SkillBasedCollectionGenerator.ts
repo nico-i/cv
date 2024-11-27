@@ -5,11 +5,16 @@ import {
 } from '../../domain/services/ValidationService';
 import type { Collection, TinaField } from 'tinacms';
 
-export const generateSkillBasedCollection = (
-  [name, label]: [string, string],
+export const generateSkillBasedCollection = ({
+  name,
+  label,
   withIcon = true,
-): Collection => {
-  const singularCollectionItemName = name.slice(0, -1);
+}: {
+  name: string;
+  label: string;
+  withIcon?: boolean;
+}): Collection => {
+  const singularCollectionItemName = label.slice(0, -1);
   return {
     name,
     label,
@@ -23,7 +28,7 @@ export const generateSkillBasedCollection = (
               type: `image`,
               required: true,
               ui: {
-                description: `A SVG icon representing this ${singularCollectionItemName}.`,
+                description: `A SVG icon representing this ${singularCollectionItemName} (checkout <a href="https://react-icons.github.io/react-icons" target="_blank" rel="noopener noreferrer">React Icons</a>).`,
                 validate: validateImageField(true, `.svg`),
                 parse: parseGitHubImage,
               },

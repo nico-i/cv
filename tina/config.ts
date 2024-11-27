@@ -3,7 +3,6 @@ import { Certificates } from './domain/entities/collections/Certificates';
 import { Concepts } from './domain/entities/collections/Concepts';
 import { Educations } from './domain/entities/collections/Educations';
 import { Frameworks } from './domain/entities/collections/Frameworks';
-import { Interests } from './domain/entities/collections/Interests';
 import { Jobs } from './domain/entities/collections/Jobs';
 import { Languages } from './domain/entities/collections/Languages';
 import { Platforms } from './domain/entities/collections/Platforms';
@@ -42,7 +41,6 @@ export default defineConfig({
       Projects,
       Educations,
       Jobs,
-      Interests,
       Languages,
       ProgrammingLanguages,
       Frameworks,

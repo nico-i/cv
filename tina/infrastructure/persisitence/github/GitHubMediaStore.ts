@@ -14,6 +14,7 @@ export interface GitHubMediaStoreOptions {
 export class GitHubMediaStore implements MediaStore {
   accept = DEFAULT_MEDIA_UPLOAD_TYPES;
   private readonly baseUrl: string;
+  isStatic?: true;
 
   constructor(options?: GitHubMediaStoreOptions) {
     this.baseUrl = options?.baseUrl || `/api/github/media`;
@@ -24,7 +25,6 @@ export class GitHubMediaStore implements MediaStore {
 
     for (const item of media) {
       const { file, directory } = item;
-
       const formData = new FormData();
       formData.append(`file`, file);
       formData.append(`directory`, directory);
@@ -63,7 +63,6 @@ export class GitHubMediaStore implements MediaStore {
 
   async list(options?: MediaListOptions): Promise<MediaList> {
     const query = this.mapMediaListOptionsToQueryParams(options || {});
-
     const allFiles: Media[] = await fetch(this.baseUrl + query).then((res) =>
       res.json(),
     );

@@ -3,9 +3,11 @@ import type { Request, RequestHandler, Response } from 'express';
 import * as fs from 'fs/promises';
 import multer from 'multer';
 import path from 'path';
-import type { MediaListOptions } from 'tinacms';
+import type { Media, MediaListOptions } from 'tinacms';
 import { promisify } from 'util';
 import { isGitHubFile, toMedia } from '../../../domain/entities/GitHubFile';
+
+const directoryInitFilename = `.gitkeep`;
 
 export interface GitHubMediaHandlerConfig {
   /**
@@ -94,35 +96,95 @@ async function listMedia(
 ) {
   try {
     const queryStr = req.url.split(`?`)[1];
-    const mediaListOptions = queryStr ? toMediaListOptions(queryStr) : null;
+    const mediaListOptions = toMediaListOptions(queryStr);
 
     const contentPath = path.join(
       config.basePath,
       mediaListOptions?.directory || ``,
     );
+    const { owner, repo, branch } = config;
 
-    const { data: allGhFiles } = await octokit.repos.getContent({
-      owner: config.owner,
-      repo: config.repo,
-      path: contentPath,
-      headers: {
-        'X-GitHub-Api-Version': `2022-11-28`,
-        accept: `application/vnd.github+json`,
-      },
-    });
-
-    if (!Array.isArray(allGhFiles)) {
-      res.status(500).json({
-        message: `Received invalid response from GitHub repo. Expected array, got ${typeof allGhFiles}`,
+    let allMedia: Media[] = [];
+    try {
+      const contentRes = await octokit.repos.getContent({
+        owner,
+        repo,
+        path: contentPath,
+        headers: {
+          'X-GitHub-Api-Version': `2022-11-28`,
+          accept: `application/vnd.github+json`,
+        },
       });
-      return;
+
+      const { data: allGhFiles } = contentRes;
+
+      if (!Array.isArray(allGhFiles)) {
+        res.status(500).json({
+          message: `Received invalid response from GitHub repo. Expected array, got ${typeof allGhFiles}`,
+        });
+        return;
+      }
+
+      allMedia = allGhFiles.map((ghFile) => toMedia(ghFile, config.basePath));
+    } catch (e) {
+      if (
+        typeof e === `object` &&
+        e !== null &&
+        `status` in e &&
+        e.status === 404
+      ) {
+        if (mediaListOptions.directory === undefined) {
+          res.status(400).json({
+            message: `Media not found in GitHub repo and no new directory specified`,
+          });
+          return;
+        }
+        // Directory doesn't exist in the repo yet so we create it
+        const createDirRes = await octokit.repos.createOrUpdateFileContents({
+          owner,
+          repo,
+          path: path.join(
+            config.basePath,
+            mediaListOptions.directory,
+            directoryInitFilename,
+          ),
+          message: `docs(cms): created directory "${mediaListOptions.directory} [skip ci]"`,
+          author: commitAuthor,
+          committer: commitAuthor,
+          content: ``,
+          branch,
+        });
+
+        const { content: ghFileRes } = createDirRes.data;
+        if (!isGitHubFile(ghFileRes)) {
+          res.status(500).json({
+            message: `Received invalid response from GitHub. Expected GitHub file, got ${JSON.stringify(
+              createDirRes.data,
+              null,
+              2,
+            )}`,
+          });
+          return;
+        }
+
+        const ghFile = toMedia(ghFileRes, config.basePath);
+
+        allMedia = [ghFile];
+      } else {
+        res.status(500).json({
+          message: `Failed to get content from GitHub repo. Response: ${e}`,
+        });
+        return;
+      }
     }
 
-    let allMedia = allGhFiles.map((ghFile) => toMedia(ghFile, config.basePath));
+    // if (mediaListOptions?.filesOnly) {
+    //   allMedia = allMedia.filter((media) => media.type === `file`);
+    // }
 
-    if (mediaListOptions?.filesOnly) {
-      allMedia = allMedia.filter((media) => media.type === `file`);
-    }
+    allMedia = allMedia.filter(
+      (media) => media.filename !== directoryInitFilename,
+    );
 
     res.json(allMedia);
   } catch (e) {
@@ -246,6 +308,33 @@ async function uploadMedia(
     }
   } catch {
     // File doesn't exist yet, which is fine
+  }
+
+  // check if the folder contains a .gitkeep file
+  const folderPath = path.join(basePath, directory);
+  const folderFiles = await octokit.repos.getContent({
+    owner,
+    repo,
+    path: folderPath,
+    ref: branch,
+  });
+
+  if (Array.isArray(folderFiles.data)) {
+    const gitkeepFile = folderFiles.data?.find(
+      (file) => file.name === directoryInitFilename,
+    );
+    if (gitkeepFile) {
+      await octokit.repos.deleteFile({
+        owner,
+        repo,
+        branch,
+        message: `docs(cms): deleted "${directoryInitFilename}" placeholder in "${directory}" [skip ci]`,
+        author: commitAuthor,
+        committer: commitAuthor,
+        path: path.join(directory, directoryInitFilename),
+        sha: gitkeepFile.sha,
+      });
+    }
   }
 
   let fileContent: string;

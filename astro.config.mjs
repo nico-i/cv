@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: `https://cv.nico.ismaili.de`,
+  site: import.meta.env.SITE_URL,
   devToolbar: { enabled: false },
   integrations: [
     astroI18next(),

@@ -82,6 +82,7 @@ export const generateSkillBasedCollection = ({
         label: `Priority`,
         name: `priority`,
         type: `number`,
+        required: true,
         ui: {
           description: `A value between 0 and 10. Higher values are displayed first.`,
           validate: (value: number) => {

@@ -4,17 +4,10 @@ import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Joystick from '@/svg/joystick.svg?raw';
 import { t } from 'i18next';
 import databaseClient from 'tina/__generated__/databaseClient';
-import type { InterestsQuery } from 'tina/__generated__/types';
 
-const interestEdges = (await databaseClient.queries.interestsConnection({}))
-  .data.interestsConnection.edges;
-const interests: NonNullable<InterestsQuery['interests']>[] = [];
-
-interestEdges?.forEach((edge) => {
-  if (edge?.node) {
-    interests.push(edge.node);
-  }
-});
+const me = (await databaseClient.queries.meConnection()).data.meConnection
+  .edges?.[0]?.node;
+const interests = me?.interests || [];
 ---
 
 {
@@ -26,7 +19,7 @@ interestEdges?.forEach((edge) => {
       <Fragment slot="content">
         <ul>
           {interests.map((interest) => (
-            <li>{interest.name}</li>
+            <li>{interest}</li>
           ))}
         </ul>
       </Fragment>

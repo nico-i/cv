@@ -144,6 +144,7 @@
             "label": "Priority",
             "name": "priority",
             "type": "number",
+            "required": true,
             "ui": {
               "description": "A value between 0 and 10. Higher values are displayed first."
             },
@@ -309,6 +310,7 @@
             "label": "Priority",
             "name": "priority",
             "type": "number",
+            "required": true,
             "ui": {
               "description": "A value between 0 and 10. Higher values are displayed first."
             },
@@ -645,6 +647,7 @@
             "label": "Priority",
             "name": "priority",
             "type": "number",
+            "required": true,
             "ui": {
               "description": "A value between 0 and 10. Higher values are displayed first."
             },
@@ -723,6 +726,7 @@
             "label": "Priority",
             "name": "priority",
             "type": "number",
+            "required": true,
             "ui": {
               "description": "A value between 0 and 10. Higher values are displayed first."
             },
@@ -932,6 +936,7 @@
             "label": "Priority",
             "name": "priority",
             "type": "number",
+            "required": true,
             "ui": {
               "description": "A value between 0 and 10. Higher values are displayed first."
             },
@@ -3752,8 +3757,11 @@
             "name": { "kind": "Name", "value": "priority" },
             "arguments": [],
             "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Float" }
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "Float" }
+              }
             }
           },
           {
@@ -4331,8 +4339,11 @@
             "name": { "kind": "Name", "value": "priority" },
             "arguments": [],
             "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Float" }
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "Float" }
+              }
             }
           },
           {
@@ -5452,8 +5463,11 @@
             "name": { "kind": "Name", "value": "priority" },
             "arguments": [],
             "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Float" }
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "Float" }
+              }
             }
           },
           {
@@ -5703,8 +5717,11 @@
             "name": { "kind": "Name", "value": "priority" },
             "arguments": [],
             "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Float" }
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "Float" }
+              }
             }
           },
           {
@@ -6397,8 +6414,11 @@
             "name": { "kind": "Name", "value": "priority" },
             "arguments": [],
             "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "Float" }
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "Float" }
+              }
             }
           },
           {

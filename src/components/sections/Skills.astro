@@ -1,49 +1,81 @@
-<!-- ---
+---
 import Card from '@/components/ui/Card.astro';
 import Gauge from '@/components/ui/Gauge.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
 import CPU from '@/svg/cpu.svg?raw';
 import i18next, { t } from 'i18next';
+import databaseClient from 'tina/__generated__/databaseClient';
+import type {
+  FrameworksQuery,
+  PlatformsQuery,
+  ProgLangsQuery,
+  ToolsQuery,
+} from 'tina/__generated__/types';
 
 interface Props {
   isPrint?: boolean;
 }
 const { isPrint = false }: Props = Astro.props;
 
+const frameworkConnections = (
+  await databaseClient.queries.frameworksConnection()
+).data.frameworksConnection.edges;
+const frameworks: NonNullable<FrameworksQuery['frameworks']>[] = [];
+frameworkConnections?.forEach(
+  (edge) => edge?.node && frameworks.push(edge.node),
+);
+
+const progLangConnections = (await databaseClient.queries.progLangsConnection())
+  .data.progLangsConnection.edges;
+const progLangs: NonNullable<ProgLangsQuery['progLangs']>[] = [];
+progLangConnections?.forEach((edge) => edge?.node && progLangs.push(edge.node));
+
+const toolConnections = (await databaseClient.queries.toolsConnection()).data
+  .toolsConnection.edges;
+const tools: NonNullable<ToolsQuery['tools']>[] = [];
+toolConnections?.forEach((edge) => edge?.node && tools.push(edge.node));
+
+const platformConnections = (await databaseClient.queries.platformsConnection())
+  .data.platformsConnection.edges;
+const platforms: NonNullable<PlatformsQuery['platforms']>[] = [];
+platformConnections?.forEach((edge) => edge?.node && platforms.push(edge.node));
+
+const skills = [...frameworks, ...progLangs, ...tools, ...platforms].sort(
+  (a, b) => b.priority - a.priority,
+);
 ---
 
-<Card>
-  <Fragment slot="title">
-    <SectionTitle title={t('skills')} svgHtml={CPU} />
-  </Fragment>
-  <Fragment slot="content">
-    <div
-      class:list={[
-        isPrint
-          ? 'grid grid-cols-4 gap-3'
-          : 'grid grid-cols-5 lg:grid-cols-4 gap-3',
-      ]}
-    >
-      {
-        skills?.map((skill) => {
-          if (!skill.icon) {
-            return null;
-          }
-          return (
-            <Gauge radius={21} strokeWidth={3} percentage={skill.proficiency}>
-              <a
-                href={skill.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={`${skill.proficiency}% | ${skill.name}`}
-              >
-                <Svg size="md" svgHtml={skill.icon.fetchHtml()} />
-              </a>
-            </Gauge>
-          );
-        })
-      }
-    </div>
-  </Fragment>
-</Card> -->
+{
+  skills.length > 0 && (
+    <Card>
+      <Fragment slot="title">
+        <SectionTitle title={t('skills')} svgHtml={CPU} />
+      </Fragment>
+      <Fragment slot="content">
+        <div
+          class:list={[
+            isPrint
+              ? 'grid grid-cols-4 gap-3'
+              : 'grid grid-cols-5 lg:grid-cols-4 gap-3',
+          ]}
+        >
+          {skills.map((skill) => {
+            return (
+              <Gauge radius={21} strokeWidth={3} percentage={skill.proficiency}>
+                <a
+                  href={skill.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`${skill.proficiency}% | ${skill.name}`}
+                >
+                  <Svg size="md" svgUrl={skill.icon} />
+                </a>
+              </Gauge>
+            );
+          })}
+        </div>
+      </Fragment>
+    </Card>
+  )
+}

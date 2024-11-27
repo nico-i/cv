@@ -1,4 +1,4 @@
-import { generateSkillBasedCollection } from '../../infrastructure/generators/SkillBasedCollectionGenerator';
+import { generateSkillBasedCollection } from '../../../infrastructure/generators/SkillBasedCollectionGenerator';
 
 export const ProgrammingLanguages = generateSkillBasedCollection([
   `progLangs`,

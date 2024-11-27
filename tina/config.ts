@@ -1,15 +1,16 @@
-import { Certificates } from './domain/entities/Certificates';
-import { Concepts } from './domain/entities/Concepts';
-import { Educations } from './domain/entities/Educations';
-import { Frameworks } from './domain/entities/Frameworks';
-import { Interests } from './domain/entities/Interests';
-import { Jobs } from './domain/entities/Jobs';
-import { Languages } from './domain/entities/Languages';
-import { Platforms } from './domain/entities/Platforms';
-import { ProgrammingLanguages } from './domain/entities/ProgrammingLanguages';
-import { Projects } from './domain/entities/Projects';
-import { Tools } from './domain/entities/Tools';
-import { VolunteerProjects } from './domain/entities/VolunteerProjects';
+import { Me } from './domain/entities/globals/Me';
+import { Certificates } from './domain/entities/collections/Certificates';
+import { Concepts } from './domain/entities/collections/Concepts';
+import { Educations } from './domain/entities/collections/Educations';
+import { Frameworks } from './domain/entities/collections/Frameworks';
+import { Interests } from './domain/entities/collections/Interests';
+import { Jobs } from './domain/entities/collections/Jobs';
+import { Languages } from './domain/entities/collections/Languages';
+import { Platforms } from './domain/entities/collections/Platforms';
+import { ProgrammingLanguages } from './domain/entities/collections/ProgrammingLanguages';
+import { Projects } from './domain/entities/collections/Projects';
+import { Tools } from './domain/entities/collections/Tools';
+import { VolunteerProjects } from './domain/entities/collections/VolunteerProjects';
 
 import { defineConfig, LocalAuthProvider } from 'tinacms';
 import {
@@ -51,6 +52,7 @@ export default defineConfig({
       Certificates,
       VolunteerProjects,
       TinaUserCollection,
-    ],
+      Me,
+    ].toSorted((a, b) => a.name.localeCompare(b.name)),
   },
 });

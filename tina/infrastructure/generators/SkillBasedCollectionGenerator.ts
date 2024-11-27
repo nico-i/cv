@@ -1,6 +1,6 @@
 import { parseGitHubImage } from '../../domain/entities/GitHubFile';
 import {
-  validateImageFieldFileExt,
+  validateImageField,
   validateUrl,
 } from '../../domain/services/ValidationService';
 import type { Collection, TinaField } from 'tinacms';
@@ -24,7 +24,7 @@ export const generateSkillBasedCollection = (
               required: true,
               ui: {
                 description: `A SVG icon representing this ${singularCollectionItemName}.`,
-                validate: validateImageFieldFileExt(`.svg`, true),
+                validate: validateImageField(true, `.svg`),
                 parse: parseGitHubImage,
               },
             } satisfies TinaField,

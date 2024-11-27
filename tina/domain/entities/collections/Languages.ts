@@ -1,5 +1,5 @@
-import { validateImageFieldFileExt } from '../services/ValidationService';
-import { parseGitHubImage } from './GitHubFile';
+import { validateImageField } from '../../services/ValidationService';
+import { parseGitHubImage } from '../GitHubFile';
 import { type Collection } from 'tinacms';
 
 export const Languages: Collection = {
@@ -15,7 +15,7 @@ export const Languages: Collection = {
       ui: {
         description: `A SVG of the flag of the country where this language is spoken. See <a href="https://flagicons.lipis.dev/">https://flagicons.lipis.dev/</a> for a list of available flag SVGs.`,
         parse: parseGitHubImage,
-        validate: validateImageFieldFileExt(`.svg`, true),
+        validate: validateImageField(true, `.svg`),
       },
     },
     {

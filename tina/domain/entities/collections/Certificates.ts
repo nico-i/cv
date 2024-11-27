@@ -1,8 +1,8 @@
-import { parseGitHubImage } from './GitHubFile';
+import { parseGitHubImage } from '../GitHubFile';
 import {
-  validateImageFieldFileExt,
+  validateImageField,
   validateUrl,
-} from '../services/ValidationService';
+} from '../../services/ValidationService';
 import type { Collection } from 'tinacms';
 
 export const Certificates: Collection = {
@@ -16,7 +16,7 @@ export const Certificates: Collection = {
       type: `image`,
       ui: {
         description: `A PDF of the certificate.`,
-        validate: validateImageFieldFileExt(`.pdf`, false),
+        validate: validateImageField(false, `.pdf`),
         parse: parseGitHubImage,
       },
     },

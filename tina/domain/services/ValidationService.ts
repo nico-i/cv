@@ -1,16 +1,20 @@
 import type { UIField } from 'node_modules/@tinacms/schema-tools/dist/types';
 
-export function validateImageFieldFileExt(
-  fileExt: string,
+export function validateImageField(
   required: boolean,
+  fileExts?: string | string[],
 ): UIField<string, false>[`validate`] {
   return function (value) {
     if (required) {
       if (!value) {
         return `Required`;
       }
-      if (!value?.endsWith(fileExt)) {
-        return `Only "${fileExt}" files are allowed`;
+
+      if (fileExts === undefined) return;
+
+      const fileExtArr = Array.isArray(fileExts) ? fileExts : [fileExts];
+      if (!fileExtArr.some((fileExt) => value.endsWith(fileExt))) {
+        return `Only "${fileExtArr.join(`", "`)}" files are allowed`;
       }
     }
   };

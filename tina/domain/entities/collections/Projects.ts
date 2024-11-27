@@ -1,7 +1,7 @@
-import { TechnologyReferences } from '../../infrastructure/fields/TechnologyReferenceFields';
+import { TechnologyReferences } from '../../../infrastructure/fields/TechnologyReferenceFields';
 import type { Collection } from 'tinacms';
-import { parseGitHubImage } from './GitHubFile';
-import { validateUrl } from '../services/ValidationService';
+import { parseGitHubImage } from '../GitHubFile';
+import { validateUrl } from '../../services/ValidationService';
 
 export const Projects: Collection = {
   name: `projects`,

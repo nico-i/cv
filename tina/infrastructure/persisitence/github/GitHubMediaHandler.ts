@@ -310,33 +310,6 @@ async function uploadMedia(
     // File doesn't exist yet, which is fine
   }
 
-  // check if the folder contains a .gitkeep file
-  const folderPath = path.join(basePath, directory);
-  const folderFiles = await octokit.repos.getContent({
-    owner,
-    repo,
-    path: folderPath,
-    ref: branch,
-  });
-
-  if (Array.isArray(folderFiles.data)) {
-    const gitkeepFile = folderFiles.data?.find(
-      (file) => file.name === directoryInitFilename,
-    );
-    if (gitkeepFile) {
-      await octokit.repos.deleteFile({
-        owner,
-        repo,
-        branch,
-        message: `docs(cms): deleted "${directoryInitFilename}" placeholder in "${directory}" [skip ci]`,
-        author: commitAuthor,
-        committer: commitAuthor,
-        path: path.join(directory, directoryInitFilename),
-        sha: gitkeepFile.sha,
-      });
-    }
-  }
-
   let fileContent: string;
   try {
     // Read file from disk and convert to base64

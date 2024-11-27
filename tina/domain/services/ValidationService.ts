@@ -5,11 +5,13 @@ export function validateImageFieldFileExt(
   required: boolean,
 ): UIField<string, false>[`validate`] {
   return function (value) {
-    if (required && !value) {
-      return `Required`;
-    }
-    if (!value?.endsWith(fileExt)) {
-      return `Only "${fileExt}" files are allowed`;
+    if (required) {
+      if (!value) {
+        return `Required`;
+      }
+      if (!value?.endsWith(fileExt)) {
+        return `Only "${fileExt}" files are allowed`;
+      }
     }
   };
 }
@@ -18,13 +20,13 @@ export function validateUrl(
   required: boolean,
 ): UIField<string, false>[`validate`] {
   return function (value) {
-    if (required && !value) {
-      return `Required`;
-    }
-    try {
-      new URL(value);
-    } catch {
-      return `Must be a valid URL`;
+    if (required) {
+      if (!value) return `Required`;
+      try {
+        new URL(value);
+      } catch {
+        return `Must be a valid URL`;
+      }
     }
   };
 }

@@ -10,9 +10,12 @@ const { className, svgUrl, svgHtml, size = 'sm' }: Props = Astro.props;
 
 let html: string;
 if (svgUrl) {
+  console.log(svgUrl);
   html = await fetch(svgUrl).then((res) => res.text());
-} else {
+} else if (svgHtml) {
   html = svgHtml!;
+} else {
+  throw new Error('Svg component requires either svgUrl or svgHtml prop');
 }
 
 const classesBySize = {

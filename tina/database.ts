@@ -1,6 +1,6 @@
 import { createDatabase } from '@tinacms/datalayer';
-import { MongodbLevel } from 'mongodb-level';
-import { GitHubProvider } from 'tinacms-gitprovider-github';
+import MongodbLevel from 'mongodb-level';
+import { GitHubProvider } from 'tinacms-gitprovider-github/dist/index';
 
 const branch = process.env.GITHUB_BRANCH;
 if (!branch) {
@@ -34,7 +34,7 @@ export default createDatabase({
     token,
     branch,
   }),
-  databaseAdapter: new MongodbLevel<string, Record<string, unknown>>({
+  databaseAdapter: new MongodbLevel.MongodbLevel({
     collectionName: branch,
     dbName: `tinacms`,
     mongoUri: mongoUri,

@@ -8,7 +8,7 @@ export function validateImageFieldFileExt(
     if (required && !value) {
       return `Required`;
     }
-    if (value?.endsWith(fileExt)) {
+    if (!value?.endsWith(fileExt)) {
       return `Only "${fileExt}" files are allowed`;
     }
   };

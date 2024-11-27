@@ -1,4 +1,4 @@
-<!-- ---
+---
 import Card from '@/components/ui/Card.astro';
 import Link from '@/components/ui/Link.astro';
 import Svg from '@/components/ui/Svg.astro';
@@ -6,80 +6,82 @@ import Typography from '@/components/ui/Typography.astro';
 import Cake from '@/svg/cake.svg?raw';
 import MapPin from '@/svg/map-pin.svg?raw';
 import Phone from '@/svg/phone.svg?raw';
-import { Image } from 'astro:assets';
+import { Image as AstroImage } from 'astro:assets';
 import i18next from 'i18next';
-import {client} from 'tina/__generated__/client';
+import sharp from 'sharp';
+import databaseClient from 'tina/__generated__/databaseClient';
 
 const locale = i18next.language;
-const user = (await databaseClient.queries.user({
-    relativePath:
-})
+const me = (await databaseClient.queries.meConnection()).data.meConnection
+  .edges?.[0]?.node;
+
+let width,
+  height: number | undefined = undefined;
+
+if (me?.avatar) {
+  const imageUrl = me.avatar;
+  const response = await fetch(imageUrl);
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  const metadata = await sharp(buffer).metadata();
+  width = metadata.width;
+  height = metadata.height;
+}
 ---
 
-<Card contentClassName="flex flex-col gap-6">
-  <Fragment slot="title">
-    {
-      info?.portrait && (
-        <Image
-          loading={'eager'}
-          src={info.portrait.url.href}
-          width={info.portrait.width}
-          height={info.portrait.height}
-          alt="Portrait Nico Ismaili"
-          class="rounded-full mb-3 aspect-square w-40 mx-auto"
-        />
-      )
-    }
-    <Typography variant="h2">{info?.name}</Typography>
-  </Fragment>
-  <Fragment slot="subtitle">
-    {info?.occupation}
-  </Fragment>
-  <Fragment slot="content">
-    <div id="info" class="flex flex-col gap-2">
-      <Typography variant="small">
-        <Svg svgHtml={Cake} />
-        &hairsp;
-        {
-          info?.dob.toLocaleDateString(locale.value, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
-      </Typography>
-      <Typography variant="small">
-        <Svg svgHtml={Phone} />
-        &hairsp;
-        <a href={`phone:${info?.phone}`}>
-          {info?.phone}
-        </a>
-      </Typography>
-      <Typography variant="small">
-        <Svg svgHtml={MapPin} />
-        &hairsp;
-        {info?.address}
-      </Typography>
-    </div>
-    <ul class="hide-bullets">
-      {
-        info?.contacts?.map((contactLink) => {
-          if (!contactLink.icon) {
-            return null;
-          }
-
-          return (
-            <li>
-              <Svg
-                svgHtml={contactLink.icon.fetchHtml()}
-                className="translate-y-0.5"
-              />
-              &hairsp;
-              <Link href={contactLink.url.href}>{contactLink.text}</Link>
-            </li>
-          );
-        })
-      }
-    </ul>
-  </Fragment>
-</Card> -->
+{
+  !!me && (
+    <Card contentClassName="flex flex-col gap-6">
+      <Fragment slot="title">
+        {me.avatar && width && height && (
+          <AstroImage
+            width={width}
+            height={height}
+            loading={'eager'}
+            src={me.avatar}
+            alt="Portrait Nico Ismaili"
+            class="rounded-full mb-3 aspect-square w-40 mx-auto"
+          />
+        )}
+        <Typography variant="h2">{me.name}</Typography>
+      </Fragment>
+      <Fragment slot="subtitle">{me.currentPosition}</Fragment>
+      <Fragment slot="content">
+        <div id="info" class="flex flex-col gap-2">
+          <Typography variant="small">
+            <Svg svgHtml={Cake} />
+            &hairsp;
+            {new Date(me.birthDate).toLocaleDateString(locale, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </Typography>
+          <Typography variant="small">
+            <Svg svgHtml={Phone} />
+            &hairsp;
+            <a href={`phone:${me.phone}`}>{me.phone}</a>
+          </Typography>
+          <Typography variant="small">
+            <Svg svgHtml={MapPin} />
+            &hairsp;
+            {me.residence}
+          </Typography>
+        </div>
+        <ul class="hide-bullets">
+          {me.contactLinks?.map(
+            (contactLink) =>
+              contactLink && (
+                <li>
+                  <Svg svgUrl={contactLink.icon} className="translate-y-0.5" />
+                  &hairsp;
+                  <Link href={contactLink.url}>{contactLink.username}</Link>
+                </li>
+              ),
+          )}
+        </ul>
+      </Fragment>
+    </Card>
+  )
+}

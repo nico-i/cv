@@ -1,0 +1,25 @@
+---
+import { TinaMarkdown, type TinaMarkdownContent } from 'tinacms/dist/rich-text';
+import { renderToString } from 'react-dom/server';
+
+interface Props {
+  tree: TinaMarkdownContent;
+}
+const { tree }: Props = Astro.props;
+
+const reactOutput = renderToString(
+  TinaMarkdown({
+    content: tree,
+    // components: {
+    //   li: (props): JSX.Element => {
+    //     return React.createElement('li', {
+    //       children: props?.children,
+    //       className: 'text-blue-500',
+    //     });
+    //   },
+    // },
+  }),
+);
+---
+
+<Fragment set:html={reactOutput} />

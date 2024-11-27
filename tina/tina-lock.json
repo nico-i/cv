@@ -519,18 +519,18 @@
           {
             "required": true,
             "type": "string",
-            "name": "address",
-            "label": "Address",
-            "namespace": ["me", "address"],
+            "name": "phone",
+            "label": "Phone number",
+            "namespace": ["me", "phone"],
             "searchable": true,
             "uid": false
           },
           {
             "required": true,
             "type": "string",
-            "name": "phone",
-            "label": "Phone number",
-            "namespace": ["me", "phone"],
+            "name": "residence",
+            "label": "Current hometown",
+            "namespace": ["me", "residence"],
             "searchable": true,
             "uid": false
           },
@@ -539,13 +539,33 @@
             "list": true,
             "name": "contactLinks",
             "label": "Contact Links",
+            "ui": {},
             "fields": [
+              {
+                "type": "image",
+                "name": "icon",
+                "label": "Icon",
+                "required": true,
+                "ui": {},
+                "namespace": ["me", "contactLinks", "icon"],
+                "searchable": false,
+                "uid": false
+              },
               {
                 "required": true,
                 "type": "string",
-                "name": "text",
-                "label": "Text",
-                "namespace": ["me", "contactLinks", "text"],
+                "name": "platform",
+                "label": "Platform",
+                "namespace": ["me", "contactLinks", "platform"],
+                "searchable": true,
+                "uid": false
+              },
+              {
+                "required": true,
+                "type": "string",
+                "name": "username",
+                "label": "username",
+                "namespace": ["me", "contactLinks", "username"],
                 "searchable": true,
                 "uid": false
               },
@@ -556,16 +576,6 @@
                 "label": "URL",
                 "namespace": ["me", "contactLinks", "url"],
                 "searchable": true,
-                "uid": false
-              },
-              {
-                "type": "image",
-                "name": "icon",
-                "label": "Icon",
-                "required": true,
-                "ui": {},
-                "namespace": ["me", "contactLinks", "icon"],
-                "searchable": false,
                 "uid": false
               }
             ],
@@ -5225,7 +5235,31 @@
         "fields": [
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "text" },
+            "name": { "kind": "Name", "value": "icon" },
+            "arguments": [],
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "String" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "arguments": [],
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "String" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "username" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -5238,18 +5272,6 @@
           {
             "kind": "FieldDefinition",
             "name": { "kind": "Name", "value": "url" },
-            "arguments": [],
-            "type": {
-              "kind": "NonNullType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "String" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "icon" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -5335,7 +5357,7 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "address" },
+            "name": { "kind": "Name", "value": "phone" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -5347,7 +5369,7 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "phone" },
+            "name": { "kind": "Name", "value": "residence" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -5413,7 +5435,23 @@
         "fields": [
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "text" },
+            "name": { "kind": "Name", "value": "icon" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ImageFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "StringFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "username" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -5425,14 +5463,6 @@
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "icon" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "ImageFilter" }
             }
           }
         ]
@@ -5483,7 +5513,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "address" },
+            "name": { "kind": "Name", "value": "phone" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -5491,7 +5521,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "phone" },
+            "name": { "kind": "Name", "value": "residence" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -9109,7 +9139,23 @@
         "fields": [
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "text" },
+            "name": { "kind": "Name", "value": "icon" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "username" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -9118,14 +9164,6 @@
           {
             "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "url" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "String" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "icon" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -9179,7 +9217,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "address" },
+            "name": { "kind": "Name", "value": "phone" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -9187,7 +9225,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "phone" },
+            "name": { "kind": "Name", "value": "residence" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }

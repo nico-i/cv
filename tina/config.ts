@@ -1,4 +1,4 @@
-import { Me } from './domain/entities/globals/Me';
+import { Me } from './domain/entities/singles/Me';
 import { Certificates } from './domain/entities/collections/Certificates';
 import { Concepts } from './domain/entities/collections/Concepts';
 import { Educations } from './domain/entities/collections/Educations';

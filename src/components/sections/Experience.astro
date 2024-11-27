@@ -13,6 +13,7 @@ import Telescope from '@/svg/telescope.svg?raw';
 import databaseClient from 'tina/__generated__/databaseClient';
 import { t } from 'i18next';
 import type { JobsQuery } from 'tina/__generated__/types';
+import Markdown from '@/components/ui/Markdown.astro';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
@@ -91,7 +92,7 @@ const jobsSortedFromNewest = jobs.sort((a, b) => {
                   end={job.endDate ? new Date(job.endDate) : undefined}
                 />
               </div>
-              <Fragment slot="content" set:html={job.description} />
+              <Markdown tree={job.description} slot="content" />
             </Details>
           );
         })}

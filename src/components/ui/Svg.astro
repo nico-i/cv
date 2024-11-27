@@ -10,7 +10,6 @@ const { className, svgUrl, svgHtml, size = 'sm' }: Props = Astro.props;
 
 let html: string;
 if (svgUrl) {
-  console.log(svgUrl);
   html = await fetch(svgUrl).then((res) => res.text());
 } else if (svgHtml) {
   html = svgHtml!;

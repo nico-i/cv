@@ -13,6 +13,7 @@ import ShieldCheck from '@/svg/shield-check.svg?raw';
 import i18next, { t } from 'i18next';
 import type { Certificates, CertificatesQuery } from 'tina/__generated__/types';
 import databaseClient from 'tina/__generated__/databaseClient';
+import Markdown from '@/components/ui/Markdown.astro';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
@@ -72,7 +73,7 @@ certEdges?.forEach((edge) => {
                   })}
                 </Typography>
               </div>
-              <Fragment set:html={cert.description} slot="content" />
+              <Markdown tree={cert.description} slot="content" />
             </Details>
           );
         })}

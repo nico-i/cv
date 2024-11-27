@@ -37,21 +37,24 @@ export const Me: Collection = {
       name: `birthDate`,
       label: `Birth date`,
     },
-    { required: true, type: `string`, name: `address`, label: `Address` },
     { required: true, type: `string`, name: `phone`, label: `Phone number` },
+    {
+      required: true,
+      type: `string`,
+      name: `residence`,
+      label: `Current hometown`,
+    },
     {
       type: `object`,
       list: true,
       name: `contactLinks`,
       label: `Contact Links`,
-      fields: [
-        {
-          required: true,
-          type: `string`,
-          name: `text`,
-          label: `Text`,
+      ui: {
+        itemProps: (item) => {
+          return { label: `${item.platform} - ${item.username}` };
         },
-        { required: true, type: `string`, name: `url`, label: `URL` },
+      },
+      fields: [
         {
           type: `image`,
           name: `icon`,
@@ -62,6 +65,19 @@ export const Me: Collection = {
             parse: parseGitHubImage,
           },
         },
+        {
+          required: true,
+          type: `string`,
+          name: `platform`,
+          label: `Platform`,
+        },
+        {
+          required: true,
+          type: `string`,
+          name: `username`,
+          label: `username`,
+        },
+        { required: true, type: `string`, name: `url`, label: `URL` },
       ],
     },
   ],

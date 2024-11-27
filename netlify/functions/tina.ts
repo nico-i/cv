@@ -81,8 +81,10 @@ app.get(`/api/tina/*`, async (req, res) => {
   tinaBackend(req, res);
 });
 
-app.get(`/api/github/media`, mediaHandler);
-app.post(`/api/github/media`, mediaHandler);
-app.delete(`/api/github/media`, mediaHandler);
+if (!isLocal) {
+  app.get(`/api/github/media`, mediaHandler);
+  app.post(`/api/github/media`, mediaHandler);
+  app.delete(`/api/github/media`, mediaHandler);
+}
 
 export const handler = ServerlessHttp(app);

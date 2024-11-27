@@ -17,7 +17,7 @@ import {
   UsernamePasswordAuthJSProvider,
 } from 'tinacms-authjs/dist/tinacms';
 
-const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === `true`;
+const isLocal = process.env.IS_LOCAL_ENV === `true`;
 
 export default defineConfig({
   contentApiUrlOverride: `/api/tina/gql`,

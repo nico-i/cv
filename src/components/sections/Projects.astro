@@ -41,7 +41,7 @@ projectConnections?.forEach((edge) => {
           return (
             <Details
               {...detailsProps}
-              isCompleted={!project.endDate}
+              isCompleted={!!project.endDate}
               asTimeLine
             >
               <Typography variant="large" slot="title">

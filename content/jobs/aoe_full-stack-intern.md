@@ -1,6 +1,6 @@
 ---
-company: Junior Fullstack Developer (Intern)
-position: AOE GmbH
+position: Junior Fullstack Developer (Intern)
+company: AOE GmbH
 startDate: 2022-08-31T22:00:00.000Z
 endDate: 2023-02-26T23:00:00.000Z
 description: >

@@ -38,14 +38,9 @@ export const Projects: Collection = {
     {
       label: `Too long; didn't read`,
       name: `tldr`,
-      type: `string`,
+      type: `rich-text`,
       ui: {
-        description: `A summary of this project in no more than 140 characters.`,
-        validate: (input: string) => {
-          if (input?.length > 140) {
-            return `The TL;DR must be no more than 140 characters.`;
-          }
-        },
+        description: `A summary of this project in the least amount of words possible.`,
       },
     },
     {

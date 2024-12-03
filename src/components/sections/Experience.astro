@@ -27,7 +27,7 @@ const jobs: NonNullable<JobsQuery['jobs']>[] = [];
 
 jobEdges?.forEach((edge) => {
   if (edge?.node) {
-    jobsSortedFromNewest.push(edge.node);
+    jobs.push(edge.node);
   }
 });
 
@@ -65,7 +65,7 @@ const jobsSortedFromNewest = jobs.sort((a, b) => {
       <Fragment slot="content">
         {jobsSortedFromNewest.map((job) => {
           return (
-            <Details isCompleted={!job.endDate} asTimeLine {...detailsProps}>
+            <Details isCompleted={!!job.endDate} asTimeLine {...detailsProps}>
               <Typography variant="large" slot="title">
                 {job?.position}
               </Typography>

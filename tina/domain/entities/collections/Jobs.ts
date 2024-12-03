@@ -7,21 +7,21 @@ export const Jobs: Collection = {
   path: `content/jobs`,
   fields: [
     {
-      label: `Company`,
-      name: `company`,
-      type: `string`,
-      required: true,
-      ui: {
-        description: `The name of the company you worked for.`,
-      },
-    },
-    {
       label: `Position`,
       name: `position`,
       type: `string`,
       required: true,
       ui: {
         description: `The position you held at this company.`,
+      },
+    },
+    {
+      label: `Company`,
+      name: `company`,
+      type: `string`,
+      required: true,
+      ui: {
+        description: `The name of the company you worked for.`,
       },
     },
     {

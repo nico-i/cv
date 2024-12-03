@@ -327,22 +327,22 @@
         "path": "content/jobs",
         "fields": [
           {
-            "label": "Company",
-            "name": "company",
-            "type": "string",
-            "required": true,
-            "ui": { "description": "The name of the company you worked for." },
-            "namespace": ["jobs", "company"],
-            "searchable": true,
-            "uid": false
-          },
-          {
             "label": "Position",
             "name": "position",
             "type": "string",
             "required": true,
             "ui": { "description": "The position you held at this company." },
             "namespace": ["jobs", "position"],
+            "searchable": true,
+            "uid": false
+          },
+          {
+            "label": "Company",
+            "name": "company",
+            "type": "string",
+            "required": true,
+            "ui": { "description": "The name of the company you worked for." },
+            "namespace": ["jobs", "company"],
             "searchable": true,
             "uid": false
           },
@@ -776,12 +776,13 @@
           {
             "label": "Too long; didn't read",
             "name": "tldr",
-            "type": "string",
+            "type": "rich-text",
             "ui": {
-              "description": "A summary of this project in no more than 140 characters."
+              "description": "A summary of this project in the least amount of words possible."
             },
             "namespace": ["projects", "tldr"],
             "searchable": true,
+            "parser": { "type": "markdown" },
             "uid": false
           },
           {
@@ -832,6 +833,7 @@
             "name": "tools",
             "type": "object",
             "list": true,
+            "ui": {},
             "fields": [
               {
                 "label": "Tool",
@@ -852,6 +854,7 @@
             "name": "progLangs",
             "type": "object",
             "list": true,
+            "ui": {},
             "fields": [
               {
                 "label": "Programming Language",
@@ -864,6 +867,27 @@
               }
             ],
             "namespace": ["projects", "progLangs"],
+            "searchable": true,
+            "uid": false
+          },
+          {
+            "label": "Platforms",
+            "name": "platforms",
+            "type": "object",
+            "list": true,
+            "ui": {},
+            "fields": [
+              {
+                "label": "Platform",
+                "name": "platform",
+                "type": "reference",
+                "collections": ["platforms"],
+                "namespace": ["projects", "platforms", "platform"],
+                "searchable": true,
+                "uid": false
+              }
+            ],
+            "namespace": ["projects", "platforms"],
             "searchable": true,
             "uid": false
           }
@@ -1240,6 +1264,12 @@
     },
     "ProjectsProgLangsProgrammingLanguage": {
       "type": "ProjectsProgLangsProgrammingLanguage",
+      "resolveType": "multiCollectionDocument",
+      "createDocument": "create",
+      "updateDocument": "update"
+    },
+    "ProjectsPlatformsPlatform": {
+      "type": "ProjectsPlatformsPlatform",
       "resolveType": "multiCollectionDocument",
       "createDocument": "create",
       "updateDocument": "update"
@@ -4530,7 +4560,7 @@
         "fields": [
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "company" },
+            "name": { "kind": "Name", "value": "position" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -4542,7 +4572,7 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "position" },
+            "name": { "kind": "Name", "value": "company" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -4641,7 +4671,7 @@
         "fields": [
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "company" },
+            "name": { "kind": "Name", "value": "position" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -4649,7 +4679,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "position" },
+            "name": { "kind": "Name", "value": "company" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -5954,6 +5984,34 @@
         ]
       },
       {
+        "kind": "UnionTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsPlatformsPlatform" },
+        "directives": [],
+        "types": [
+          {
+            "kind": "NamedType",
+            "name": { "kind": "Name", "value": "Platforms" }
+          }
+        ]
+      },
+      {
+        "kind": "ObjectTypeDefinition",
+        "interfaces": [],
+        "directives": [],
+        "name": { "kind": "Name", "value": "ProjectsPlatforms" },
+        "fields": [
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "arguments": [],
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsPlatformsPlatform" }
+            }
+          }
+        ]
+      },
+      {
         "kind": "ObjectTypeDefinition",
         "interfaces": [
           { "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
@@ -6004,7 +6062,7 @@
             "arguments": [],
             "type": {
               "kind": "NamedType",
-              "name": { "kind": "Name", "value": "String" }
+              "name": { "kind": "Name", "value": "JSON" }
             }
           },
           {
@@ -6070,6 +6128,18 @@
               "type": {
                 "kind": "NamedType",
                 "name": { "kind": "Name", "value": "ProjectsProgLangs" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "platforms" },
+            "arguments": [],
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "ProjectsPlatforms" }
               }
             }
           },
@@ -6175,6 +6245,37 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsPlatformsPlatformFilter" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platforms" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "PlatformsFilter" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsPlatformsFilter" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "ProjectsPlatformsPlatformFilter"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "ProjectsFilter" },
         "fields": [
           {
@@ -6206,7 +6307,7 @@
             "name": { "kind": "Name", "value": "tldr" },
             "type": {
               "kind": "NamedType",
-              "name": { "kind": "Name", "value": "StringFilter" }
+              "name": { "kind": "Name", "value": "RichTextFilter" }
             }
           },
           {
@@ -6255,6 +6356,14 @@
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "ProjectsProgLangsFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platforms" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsPlatformsFilter" }
             }
           }
         ]
@@ -8727,7 +8836,7 @@
         "fields": [
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "company" },
+            "name": { "kind": "Name", "value": "position" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -8735,7 +8844,7 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "position" },
+            "name": { "kind": "Name", "value": "company" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -9073,6 +9182,20 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsPlatformsMutation" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platform" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "ProjectsMutation" },
         "fields": [
           {
@@ -9104,7 +9227,7 @@
             "name": { "kind": "Name", "value": "tldr" },
             "type": {
               "kind": "NamedType",
-              "name": { "kind": "Name", "value": "String" }
+              "name": { "kind": "Name", "value": "JSON" }
             }
           },
           {
@@ -9158,6 +9281,17 @@
               "type": {
                 "kind": "NamedType",
                 "name": { "kind": "Name", "value": "ProjectsProgLangsMutation" }
+              }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "platforms" },
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "ProjectsPlatformsMutation" }
               }
             }
           }

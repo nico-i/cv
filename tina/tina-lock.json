@@ -746,7 +746,6 @@
             "label": "Hero Image",
             "name": "heroImage",
             "type": "image",
-            "required": true,
             "ui": { "description": "An image that represents this project." },
             "namespace": ["projects", "heroImage"],
             "searchable": false,
@@ -759,6 +758,16 @@
             "required": true,
             "ui": { "description": "The name of this project." },
             "namespace": ["projects", "name"],
+            "searchable": true,
+            "uid": false
+          },
+          {
+            "label": "Slug",
+            "name": "slug",
+            "type": "string",
+            "required": true,
+            "ui": { "description": "The URL-friendly name of this project." },
+            "namespace": ["projects", "slug"],
             "searchable": true,
             "uid": false
           },
@@ -829,27 +838,6 @@
             "uid": false
           },
           {
-            "label": "Tools",
-            "name": "tools",
-            "type": "object",
-            "list": true,
-            "ui": {},
-            "fields": [
-              {
-                "label": "Tool",
-                "name": "tool",
-                "type": "reference",
-                "collections": ["tools"],
-                "namespace": ["projects", "tools", "tool"],
-                "searchable": true,
-                "uid": false
-              }
-            ],
-            "namespace": ["projects", "tools"],
-            "searchable": true,
-            "uid": false
-          },
-          {
             "label": "Programming Languages",
             "name": "progLangs",
             "type": "object",
@@ -888,6 +876,48 @@
               }
             ],
             "namespace": ["projects", "platforms"],
+            "searchable": true,
+            "uid": false
+          },
+          {
+            "label": "Frameworks",
+            "name": "frameworks",
+            "type": "object",
+            "list": true,
+            "ui": {},
+            "fields": [
+              {
+                "label": "Framework",
+                "name": "framework",
+                "type": "reference",
+                "collections": ["frameworks"],
+                "namespace": ["projects", "frameworks", "framework"],
+                "searchable": true,
+                "uid": false
+              }
+            ],
+            "namespace": ["projects", "frameworks"],
+            "searchable": true,
+            "uid": false
+          },
+          {
+            "label": "Tools",
+            "name": "tools",
+            "type": "object",
+            "list": true,
+            "ui": {},
+            "fields": [
+              {
+                "label": "Tool",
+                "name": "tool",
+                "type": "reference",
+                "collections": ["tools"],
+                "namespace": ["projects", "tools", "tool"],
+                "searchable": true,
+                "uid": false
+              }
+            ],
+            "namespace": ["projects", "tools"],
             "searchable": true,
             "uid": false
           }
@@ -1256,12 +1286,6 @@
       "resolveType": "collectionDocumentList",
       "collection": "progLangs"
     },
-    "ProjectsToolsTool": {
-      "type": "ProjectsToolsTool",
-      "resolveType": "multiCollectionDocument",
-      "createDocument": "create",
-      "updateDocument": "update"
-    },
     "ProjectsProgLangsProgrammingLanguage": {
       "type": "ProjectsProgLangsProgrammingLanguage",
       "resolveType": "multiCollectionDocument",
@@ -1270,6 +1294,18 @@
     },
     "ProjectsPlatformsPlatform": {
       "type": "ProjectsPlatformsPlatform",
+      "resolveType": "multiCollectionDocument",
+      "createDocument": "create",
+      "updateDocument": "update"
+    },
+    "ProjectsFrameworksFramework": {
+      "type": "ProjectsFrameworksFramework",
+      "resolveType": "multiCollectionDocument",
+      "createDocument": "create",
+      "updateDocument": "update"
+    },
+    "ProjectsToolsTool": {
+      "type": "ProjectsToolsTool",
       "resolveType": "multiCollectionDocument",
       "createDocument": "create",
       "updateDocument": "update"
@@ -5926,31 +5962,6 @@
       },
       {
         "kind": "UnionTypeDefinition",
-        "name": { "kind": "Name", "value": "ProjectsToolsTool" },
-        "directives": [],
-        "types": [
-          { "kind": "NamedType", "name": { "kind": "Name", "value": "Tools" } }
-        ]
-      },
-      {
-        "kind": "ObjectTypeDefinition",
-        "interfaces": [],
-        "directives": [],
-        "name": { "kind": "Name", "value": "ProjectsTools" },
-        "fields": [
-          {
-            "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "tool" },
-            "arguments": [],
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "ProjectsToolsTool" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "UnionTypeDefinition",
         "name": {
           "kind": "Name",
           "value": "ProjectsProgLangsProgrammingLanguage"
@@ -6012,6 +6023,59 @@
         ]
       },
       {
+        "kind": "UnionTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsFrameworksFramework" },
+        "directives": [],
+        "types": [
+          {
+            "kind": "NamedType",
+            "name": { "kind": "Name", "value": "Frameworks" }
+          }
+        ]
+      },
+      {
+        "kind": "ObjectTypeDefinition",
+        "interfaces": [],
+        "directives": [],
+        "name": { "kind": "Name", "value": "ProjectsFrameworks" },
+        "fields": [
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "framework" },
+            "arguments": [],
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsFrameworksFramework" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "UnionTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsToolsTool" },
+        "directives": [],
+        "types": [
+          { "kind": "NamedType", "name": { "kind": "Name", "value": "Tools" } }
+        ]
+      },
+      {
+        "kind": "ObjectTypeDefinition",
+        "interfaces": [],
+        "directives": [],
+        "name": { "kind": "Name", "value": "ProjectsTools" },
+        "fields": [
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "tool" },
+            "arguments": [],
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsToolsTool" }
+            }
+          }
+        ]
+      },
+      {
         "kind": "ObjectTypeDefinition",
         "interfaces": [
           { "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
@@ -6028,6 +6092,15 @@
             "name": { "kind": "Name", "value": "heroImage" },
             "arguments": [],
             "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "name" },
+            "arguments": [],
+            "type": {
               "kind": "NonNullType",
               "type": {
                 "kind": "NamedType",
@@ -6037,7 +6110,7 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "name" },
+            "name": { "kind": "Name", "value": "slug" },
             "arguments": [],
             "type": {
               "kind": "NonNullType",
@@ -6109,18 +6182,6 @@
           },
           {
             "kind": "FieldDefinition",
-            "name": { "kind": "Name", "value": "tools" },
-            "arguments": [],
-            "type": {
-              "kind": "ListType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "ProjectsTools" }
-              }
-            }
-          },
-          {
-            "kind": "FieldDefinition",
             "name": { "kind": "Name", "value": "progLangs" },
             "arguments": [],
             "type": {
@@ -6140,6 +6201,30 @@
               "type": {
                 "kind": "NamedType",
                 "name": { "kind": "Name", "value": "ProjectsPlatforms" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "frameworks" },
+            "arguments": [],
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "ProjectsFrameworks" }
+              }
+            }
+          },
+          {
+            "kind": "FieldDefinition",
+            "name": { "kind": "Name", "value": "tools" },
+            "arguments": [],
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "ProjectsTools" }
               }
             }
           },
@@ -6177,34 +6262,6 @@
                 "kind": "NamedType",
                 "name": { "kind": "Name", "value": "JSON" }
               }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "InputObjectTypeDefinition",
-        "name": { "kind": "Name", "value": "ProjectsToolsToolFilter" },
-        "fields": [
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "tools" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "ToolsFilter" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "InputObjectTypeDefinition",
-        "name": { "kind": "Name", "value": "ProjectsToolsFilter" },
-        "fields": [
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "tool" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "ProjectsToolsToolFilter" }
             }
           }
         ]
@@ -6276,6 +6333,68 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "ProjectsFrameworksFrameworkFilter"
+        },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "frameworks" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "FrameworksFilter" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsFrameworksFilter" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "framework" },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "ProjectsFrameworksFrameworkFilter"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsToolsToolFilter" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "tools" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ToolsFilter" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsToolsFilter" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "tool" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsToolsToolFilter" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "ProjectsFilter" },
         "fields": [
           {
@@ -6289,6 +6408,14 @@
           {
             "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "name" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "StringFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "slug" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "StringFilter" }
@@ -6344,14 +6471,6 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "tools" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "ProjectsToolsFilter" }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "progLangs" },
             "type": {
               "kind": "NamedType",
@@ -6364,6 +6483,22 @@
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "ProjectsPlatformsFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "frameworks" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsFrameworksFilter" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "tools" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "ProjectsToolsFilter" }
             }
           }
         ]
@@ -9154,20 +9289,6 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
-        "name": { "kind": "Name", "value": "ProjectsToolsMutation" },
-        "fields": [
-          {
-            "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "tool" },
-            "type": {
-              "kind": "NamedType",
-              "name": { "kind": "Name", "value": "String" }
-            }
-          }
-        ]
-      },
-      {
-        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "ProjectsProgLangsMutation" },
         "fields": [
           {
@@ -9196,6 +9317,34 @@
       },
       {
         "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsFrameworksMutation" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "framework" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
+        "name": { "kind": "Name", "value": "ProjectsToolsMutation" },
+        "fields": [
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "tool" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "InputObjectTypeDefinition",
         "name": { "kind": "Name", "value": "ProjectsMutation" },
         "fields": [
           {
@@ -9209,6 +9358,14 @@
           {
             "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "name" },
+            "type": {
+              "kind": "NamedType",
+              "name": { "kind": "Name", "value": "String" }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "slug" },
             "type": {
               "kind": "NamedType",
               "name": { "kind": "Name", "value": "String" }
@@ -9264,17 +9421,6 @@
           },
           {
             "kind": "InputValueDefinition",
-            "name": { "kind": "Name", "value": "tools" },
-            "type": {
-              "kind": "ListType",
-              "type": {
-                "kind": "NamedType",
-                "name": { "kind": "Name", "value": "ProjectsToolsMutation" }
-              }
-            }
-          },
-          {
-            "kind": "InputValueDefinition",
             "name": { "kind": "Name", "value": "progLangs" },
             "type": {
               "kind": "ListType",
@@ -9292,6 +9438,31 @@
               "type": {
                 "kind": "NamedType",
                 "name": { "kind": "Name", "value": "ProjectsPlatformsMutation" }
+              }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "frameworks" },
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": {
+                  "kind": "Name",
+                  "value": "ProjectsFrameworksMutation"
+                }
+              }
+            }
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": { "kind": "Name", "value": "tools" },
+            "type": {
+              "kind": "ListType",
+              "type": {
+                "kind": "NamedType",
+                "name": { "kind": "Name", "value": "ProjectsToolsMutation" }
               }
             }
           }

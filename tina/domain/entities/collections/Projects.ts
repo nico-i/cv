@@ -12,7 +12,6 @@ export const Projects: Collection = {
       label: `Hero Image`,
       name: `heroImage`,
       type: `image`,
-      required: true,
       ui: {
         description: `An image that represents this project.`,
         parse: parseGitHubImage,
@@ -25,6 +24,15 @@ export const Projects: Collection = {
       required: true,
       ui: {
         description: `The name of this project.`,
+      },
+    },
+    {
+      label: `Slug`,
+      name: `slug`,
+      type: `string`,
+      required: true,
+      ui: {
+        description: `The URL-friendly name of this project.`,
       },
     },
     {

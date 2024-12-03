@@ -1,3 +1,4 @@
+import { Frameworks } from '../../domain/entities/collections/Frameworks';
 import { Platforms } from '../../domain/entities/collections/Platforms';
 import { ProgrammingLanguages } from '../../domain/entities/collections/ProgrammingLanguages';
 import { Tools } from '../../domain/entities/collections/Tools';
@@ -14,25 +15,6 @@ function createLabel(mdFilePath: string | undefined): string {
 }
 
 export const TechnologyReferences: TinaField[] = [
-  {
-    label: Tools.label,
-    name: Tools.name,
-    type: `object`,
-    list: true,
-    ui: {
-      itemProps: (item) => {
-        return { label: `${createLabel(item.tool)}` };
-      },
-    },
-    fields: [
-      {
-        label: `Tool`,
-        name: `tool`,
-        type: `reference`,
-        collections: [Tools.name],
-      },
-    ],
-  },
   {
     label: ProgrammingLanguages.label,
     name: ProgrammingLanguages.name,
@@ -68,6 +50,44 @@ export const TechnologyReferences: TinaField[] = [
         name: `platform`,
         type: `reference`,
         collections: [Platforms.name],
+      },
+    ],
+  },
+  {
+    label: Frameworks.label,
+    name: Frameworks.name,
+    type: `object`,
+    list: true,
+    ui: {
+      itemProps: (item) => {
+        return { label: `${createLabel(item.framework)}` };
+      },
+    },
+    fields: [
+      {
+        label: `Framework`,
+        name: `framework`,
+        type: `reference`,
+        collections: [Frameworks.name],
+      },
+    ],
+  },
+  {
+    label: Tools.label,
+    name: Tools.name,
+    type: `object`,
+    list: true,
+    ui: {
+      itemProps: (item) => {
+        return { label: `${createLabel(item.tool)}` };
+      },
+    },
+    fields: [
+      {
+        label: `Tool`,
+        name: `tool`,
+        type: `reference`,
+        collections: [Tools.name],
       },
     ],
   },

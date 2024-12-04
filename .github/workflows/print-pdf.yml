@@ -40,5 +40,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/cv/
-          git diff-index --quiet HEAD || git commit -m "chore(cv): Auto-update CV pdf documents [skip ci]"
+          git diff-index --quiet HEAD || git commit -m "docs(cv): auto-update cv pdf documents [skip ci]" -m "" -m "/spend 0m"
           git push

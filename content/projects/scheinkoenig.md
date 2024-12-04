@@ -2,6 +2,7 @@
 heroImage: >-
   https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/img/projects/scheinkoenig/1080-scheinkoenig.png
 name: www.julianscheinkoenig.de
+slug: julianscheinkoenig-de
 workHours: 80
 tldr: >
   A responsive Next.js TypeScript React application with Tailwind CSS, content

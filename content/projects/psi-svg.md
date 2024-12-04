@@ -2,6 +2,7 @@
 heroImage: >-
   https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/img/1080-psi-svg.png
 name: psi-svg
+slug: psi-svg
 workHours: 8
 tldr: >
   CLI tool which performs a Google PageSpeed Insights analysis on a given
@@ -24,12 +25,12 @@ description: >
 demoUrl: 'https://www.npmjs.com/package/psi-svg'
 startDate: 2023-11-16T23:00:00.000Z
 endDate: 2024-01-05T23:00:00.000Z
-tools:
-  - tool: content/tools/git.md
-  - tool: content/tools/css.md
 progLangs:
   - programmingLanguage: content/progLangs/ts.md
 platforms:
   - platform: content/platforms/nodejs.md
+tools:
+  - tool: content/tools/git.md
+  - tool: content/tools/css.md
 ---
 

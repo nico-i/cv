@@ -2,6 +2,7 @@
 heroImage: >-
   https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/img/projects/compressed/1080-compressed.png
 name: www.compressed.studio
+slug: compressed-studio
 workHours: 80
 tldr: >
   A responsive showreel website using Next.js, TypeScript, and TailwindCSS, with

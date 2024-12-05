@@ -1,7 +1,7 @@
 ---
 address: 'Simmern, Germany'
 avatar: >-
-  https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/img/avatar.jpeg
+  https://raw.githubusercontent.com/nico-i/cv/main/public/uploads/img/avatar.jpeg?token=ACU6YBR263CDLXJOW7SPH5THKF4YK
 name: Nico Ismaili
 currentPosition: Full-Stack Developer
 bio: ''

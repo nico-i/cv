@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest # or whatever OS you need
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # If you're using Node.js
       - name: Setup Node.js

@@ -178,10 +178,6 @@ async function listMedia(
       }
     }
 
-    // if (mediaListOptions?.filesOnly) {
-    //   allMedia = allMedia.filter((media) => media.type === `file`);
-    // }
-
     allMedia = allMedia.filter(
       (media) => media.filename !== directoryInitFilename,
     );

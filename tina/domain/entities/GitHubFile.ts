@@ -91,7 +91,7 @@ export function toMedia(
   let thumbnails: Media[`thumbnails`];
 
   if (file.download_url !== null) {
-    src = file.download_url;
+    src = file.download_url.split(`?`)[0];
     if (file.name.match(/\.(jpeg|jpg|gif|png|svg)$/) != null) {
       thumbnails = {
         '75x75': src,

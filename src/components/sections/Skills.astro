@@ -4,13 +4,13 @@ import Gauge from '@/components/ui/Gauge.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
 import CPU from '@/svg/cpu.svg?raw';
-import i18next, { t } from 'i18next';
+import { t } from 'i18next';
 import databaseClient from 'tina/__generated__/databaseClient';
 import type {
-  FrameworksQuery,
-  PlatformsQuery,
-  ProgLangsQuery,
-  ToolsQuery,
+    FrameworksQuery,
+    PlatformsQuery,
+    ProgLangsQuery,
+    ToolsQuery,
 } from 'tina/__generated__/types';
 
 interface Props {

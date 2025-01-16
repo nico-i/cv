@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "outDir": "tina/dist",
+    "rootDir": "tina"
+  },
+  "include": [
+    "tina/__generated__/types.ts",
+    "tina/__generated__/databaseClient.ts",
+    "tina/database.ts",
+    "tina/index.ts"
+  ],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}

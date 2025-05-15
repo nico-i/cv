@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "IS_LOCAL_ENV=true && tinacms dev -c \"netlify dev -c 'astro dev' --verbose\"",
+    "dev:print": "IS_LOCAL_ENV=true && tinacms dev -c \"astro dev\"",
     "gen:i18n": "npx astro-i18next generate",
     "build": "tinacms build && astro check && astro build",
     "lint": "eslint .",

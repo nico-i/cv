@@ -16,17 +16,17 @@ const nextAuthSecret = process.env.NEXTAUTH_SECRET;
 if (!nextAuthSecret) {
   throw new Error(`NEXTAUTH_SECRET is required`);
 }
-const githubOwner = process.env.GITHUB_OWNER;
+const githubOwner = process.env.GITHUB_REPOSITORY_OWNER;
 if (!githubOwner) {
-  throw new Error(`GITHUB_OWNER is required`);
+  throw new Error(`GITHUB_REPOSITORY_OWNER is required`);
 }
-const githubRepo = process.env.GITHUB_REPO;
+const githubRepo = process.env.GITHUB_REPOSITORY;
 if (!githubRepo) {
-  throw new Error(`GITHUB_REPO is required`);
+  throw new Error(`GITHUB_REPOSITORY is required`);
 }
-const githubBranch = process.env.GITHUB_BRANCH;
+const githubBranch = process.env.GITHUB_REF_NAME;
 if (!githubBranch) {
-  throw new Error(`GITHUB_BRANCH is required`);
+  throw new Error(`GITHUB_REF_NAME is required`);
 }
 const githubToken = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
 if (!githubToken) {

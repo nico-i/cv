@@ -2,19 +2,19 @@ import { createDatabase, createLocalDatabase } from '@tinacms/datalayer';
 import MongodbLevel from 'mongodb-level';
 import { GitHubProvider } from 'tinacms-gitprovider-github/dist/index';
 
-const branch = process.env.GITHUB_BRANCH;
+const branch = process.env.GITHUB_REF_NAME;
 if (!branch) {
-  throw new Error(`GITHUB_BRANCH is required`);
+  throw new Error(`GITHUB_REF_NAME is required`);
 }
 
-const owner = process.env.GITHUB_OWNER;
+const owner = process.env.GITHUB_REPOSITORY_OWNER;
 if (!owner) {
-  throw new Error(`GITHUB_OWNER is required`);
+  throw new Error(`GITHUB_REPOSITORY_OWNER is required`);
 }
 
-const repo = process.env.GITHUB_REPO;
+const repo = process.env.GITHUB_REPOSITORY;
 if (!repo) {
-  throw new Error(`GITHUB_REPO is required`);
+  throw new Error(`GITHUB_REPOSITORY is required`);
 }
 
 const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;

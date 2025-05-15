@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer';
 import { spawn } from 'child_process';
 import fs from 'fs';
 
-const MAX_RETRIES = 30; // Maximum number of retries
+const MAX_RETRIES = 120; // Maximum number of retries
 const RETRY_INTERVAL = 1000; // Retry every 1 second
 
 async function waitForServer(url, retries = 0) {

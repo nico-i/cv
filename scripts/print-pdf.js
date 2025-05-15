@@ -55,6 +55,7 @@ async function printCVPdf() {
     // start the browser with at least 1024x768
     const browser = await puppeteer.launch({
       headless: true,
+      args: [`--no-sandbox``--disable-setuid-sandbox`],
     });
 
     const languages = [[`en`, `pdf`]];

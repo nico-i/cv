@@ -34,9 +34,25 @@ jobs:
 
       - name: Install dependencies
         run: npm i
-
+          npm i puppeteer
+      - name: Install additional dependencies for headless Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          libgconf-2-4 \
+          libatk1.0-0 \
+          libatk-bridge2.0-0 \
+          libgdk-pixbuf2.0-0 \
+          libgtk-3-0 \
+          libgbm-dev \
+          libnss3-dev \
+          libxss-dev
       - name: Run print command
-        run: npm run print
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+        run: |
+          npx puppeteer browsers install chrome
+          npm run print
 
       - name: Commit changes
         run: |

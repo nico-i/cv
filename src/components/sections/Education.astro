@@ -1,6 +1,5 @@
 ---
 import Card from '@/components/ui/Card.astro';
-import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
 import GradedListItem from '@/components/ui/GradedListItem.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
@@ -11,6 +10,7 @@ import University from '@/svg/university.svg?raw';
 import databaseClient from 'tina/__generated__/databaseClient';
 import { t } from 'i18next';
 import type { EducationsQuery } from 'tina/__generated__/types';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 
 const edEdges = (await databaseClient.queries.educationsConnection({})).data
   .educationsConnection.edges;
@@ -35,12 +35,12 @@ edEdges?.forEach((edge) => {
             return (
               <GradedListItem grade={ed.grade} docUrl={ed.document || null}>
                 <span slot="title">
-                  {ed?.institute}&hairsp;
-                  {ed?.url && (
-                    <ExternalIconLink
-                      href={ed.url}
-                      label={`${t('document')}: ${ed.degree}`}
-                    />
+                  {ed?.institute && ed?.url ? (
+                    <ExternalLink href={ed.url} label={ed.institute}>
+                      {ed?.institute}
+                    </ExternalLink>
+                  ) : (
+                    ed.institute
                   )}
                 </span>
                 <div class="flex flex-col gap-0.5" slot="subtitle">

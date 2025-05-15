@@ -1,0 +1,27 @@
+---
+import Svg from '@/components/ui/Svg.astro';
+import ExternalLinkIcon from '@/svg/external-link.svg?raw';
+
+interface Props {
+  href: string;
+  label: string;
+  isMuted?: boolean;
+  disableFocus?: boolean;
+}
+
+const { href, label, isMuted, disableFocus }: Props = Astro.props;
+---
+
+<a
+  href={href}
+  aria-label={label}
+  target="_blank"
+  rel="noreferrer"
+  tabindex={disableFocus ? -1 : 0}
+  class:list={[
+    'flex items-center gap-1',
+    isMuted
+      ? 'text-muted-foreground hover:text-primary'
+      : 'text-primary hover:text-muted-foreground',
+  ]}><slot /><Svg svgHtml={ExternalLinkIcon} className="*:align-super" /></a
+>

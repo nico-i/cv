@@ -3,7 +3,7 @@ import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
 } from '@/components/ui/Details.astro';
-import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 import Markdown from '@/components/ui/Markdown.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import TimeWindow from '@/components/ui/TimeWindow.astro';
@@ -45,12 +45,15 @@ projectConnections?.forEach((edge) => {
               asTimeLine
             >
               <Typography variant="large" slot="title">
-                {project.name}&hairsp;
-                {project.demoUrl && (
-                  <ExternalIconLink
+                {project.demoUrl ? (
+                  <ExternalLink
                     href={project.demoUrl}
                     label={`${t('demo-site')} ${project.demoUrl}`}
-                  />
+                  >
+                    {project.name}
+                  </ExternalLink>
+                ) : (
+                  project.name
                 )}
               </Typography>
               <div

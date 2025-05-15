@@ -3,7 +3,6 @@ import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
 } from '@/components/ui/Details.astro';
-import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
 import Typography from '@/components/ui/Typography.astro';
@@ -14,6 +13,7 @@ import i18next, { t } from 'i18next';
 import type { Certificates, CertificatesQuery } from 'tina/__generated__/types';
 import databaseClient from 'tina/__generated__/databaseClient';
 import Markdown from '@/components/ui/Markdown.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
@@ -43,12 +43,15 @@ certEdges?.forEach((edge) => {
           return (
             <Details {...detailsProps}>
               <Typography variant="large" slot="title">
-                {cert.name}&hairsp;
-                {cert?.document && (
-                  <ExternalIconLink
+                {cert?.document ? (
+                  <ExternalLink
                     href={cert.document}
                     label={`${t('document')}: ${cert.name}`}
-                  />
+                  >
+                    {cert.name}
+                  </ExternalLink>
+                ) : (
+                  cert.name
                 )}
               </Typography>
               <div

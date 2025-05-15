@@ -1,5 +1,6 @@
 import { createDatabase, createLocalDatabase } from '@tinacms/datalayer';
-import MongodbLevel from 'mongodb-level';
+import { MongodbLevel } from 'tina/infrastructure/persisitence/mongodb/MongodbLevel';
+
 import { GitHubProvider } from 'tinacms-gitprovider-github/dist/index';
 
 const branch = process.env.GITHUB_REF_NAME;
@@ -38,7 +39,7 @@ const db = isLocal
         token,
         branch,
       }),
-      databaseAdapter: new MongodbLevel.MongodbLevel({
+      databaseAdapter: new MongodbLevel<string, Record<string, string>>({
         collectionName: branch,
         dbName: `tinacms`,
         mongoUri: mongoUri,

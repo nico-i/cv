@@ -3,7 +3,6 @@ import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
 } from '@/components/ui/Details.astro';
-import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
 import TimeWindow from '@/components/ui/TimeWindow.astro';
@@ -14,6 +13,7 @@ import databaseClient from 'tina/__generated__/databaseClient';
 import { t } from 'i18next';
 import type { JobsQuery } from 'tina/__generated__/types';
 import Markdown from '@/components/ui/Markdown.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 
 interface Props extends DetailsProps {
   isPrint?: boolean;
@@ -79,12 +79,18 @@ const jobsSortedFromNewest = jobs.sort((a, b) => {
               >
                 <Typography variant="muted">
                   <Svg svgHtml={Building2} />
-                  {job.company}&hairsp;
-                  {job?.url && (
-                    <ExternalIconLink
+
+                  {job?.url ? (
+                    <ExternalLink
+                      isMuted
+                      disableFocus
                       href={job.url}
                       label={`${job.company} ${t('company-site')}`}
-                    />
+                    >
+                      {job.company}
+                    </ExternalLink>
+                  ) : (
+                    job.company
                   )}
                 </Typography>
                 <TimeWindow

@@ -3,7 +3,7 @@ import Card from '@/components/ui/Card.astro';
 import Details, {
   type Props as DetailsProps,
 } from '@/components/ui/Details.astro';
-import ExternalIconLink from '@/components/ui/ExternalIconLink.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 import Markdown from '@/components/ui/Markdown.astro';
 import SectionTitle from '@/components/ui/SectionTitle.astro';
 import Svg from '@/components/ui/Svg.astro';
@@ -46,12 +46,15 @@ volunteerProjectConnections?.forEach(
               asTimeLine
             >
               <Typography variant="large" slot="title">
-                {project.role}&thinsp;
-                {project.document && (
-                  <ExternalIconLink
+                {project.document ? (
+                  <ExternalLink
                     href={project.document}
                     label={`${t('document')}: ${project.role}`}
-                  />
+                  >
+                    {project.role}
+                  </ExternalLink>
+                ) : (
+                  project.role
                 )}
               </Typography>
               <div slot="subtitle" class="flex flex-col gap-0.5">

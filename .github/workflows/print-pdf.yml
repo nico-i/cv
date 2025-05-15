@@ -12,9 +12,6 @@ permissions:
 jobs:
   print-and-commit:
     env:
-      GITHUB_BRANCH: ${{ github.ref }}
-      GITHUB_OWNER: ${{ github.repository_owner }}
-      GITHUB_REPO: ${{ github.repository }}
       GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT }}
       IS_LOCAL_ENV: ${{ secrets.IS_LOCAL_ENV }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
@@ -34,7 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: npm i
-          npm i puppeteer
       - name: Install additional dependencies for headless Chrome
         run: |
           sudo apt-get update

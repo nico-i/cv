@@ -13,7 +13,7 @@
     "lint:types": "tsc --noEmit --incremental false",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "print": "ts-node ./scripts/print-pdf.js http://localhost:8888",
+    "print": "ts-node ./scripts/print-pdf.js http://localhost:4321",
     "prepare": "husky && echo \"#!/bin/sh\nnpx --no -- commitlint --edit \\$1\" > .husky/commit-msg"
   },
   "dependencies": {

@@ -8,12 +8,10 @@ const RETRY_INTERVAL = 1000; // Retry every 1 second
 
 async function waitForServer(url, retries = 0) {
   try {
-    const browser = await puppeteer.launch({
-      headless: true,
-    });
-    const page = await browser.newPage();
-    await page.goto(url);
-    await browser.close();
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Server not ready`);
+    }
     console.log(`Server is ready! 🚀`);
     return true;
   } catch {
